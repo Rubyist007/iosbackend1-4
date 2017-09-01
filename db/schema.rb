@@ -10,7 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901115441) do
+ActiveRecord::Schema.define(version: 20170901134134) do
+
+  create_table "dishes", force: :cascade do |t|
+    t.integer "menu_id"
+    t.string "name"
+    t.string "description"
+    t.string "photo"
+    t.string "ingredients"
+    t.integer "number_of_ratings"
+    t.integer "average_rating"
+    t.integer "sum_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_dishes_on_menu_id"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "dish_id"
+    t.integer "evaluation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_evaluations_on_dish_id"
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
+  end
+
+  create_table "menus", force: :cascade do |t|
+    t.integer "restaurant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_menus_on_restaurant_id"
+  end
+
+  create_table "restaurants", force: :cascade do |t|
+    t.string "tile"
+    t.string "description"
+    t.string "main_photo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
