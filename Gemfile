@@ -44,3 +44,4 @@ gem 'devise_token_auth'
 
 gem 'omniauth'
 gem 'omniauth-instagram'
+gem 'rspec-rails'
