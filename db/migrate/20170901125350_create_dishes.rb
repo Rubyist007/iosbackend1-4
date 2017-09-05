@@ -6,10 +6,15 @@ class CreateDishes < ActiveRecord::Migration[5.1]
       t.string :description
       t.string :photo
       t.string :ingredients
-      t.integer :number_of_ratings
-      t.integer :average_rating
-      t.integer :sum_rating
+      t.integer :number_of_ratings, default: 0
+      t.integer :average_ratings, default: 0
+      t.integer :sum_ratings, default: 0
       t.timestamps
+    end
+
+    create_table :dishes_evaluations, id:false do |t|
+      t.belongs_to :evaluation, index: true
+      t.belongs_to :dish, index: true
     end
   end
 end

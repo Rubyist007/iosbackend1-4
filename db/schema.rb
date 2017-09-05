@@ -18,12 +18,19 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.string "description"
     t.string "photo"
     t.string "ingredients"
-    t.integer "number_of_ratings"
-    t.integer "average_rating"
-    t.integer "sum_rating"
+    t.integer "number_of_ratings", default: 0
+    t.integer "average_ratings", default: 0
+    t.integer "sum_ratings", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["menu_id"], name: "index_dishes_on_menu_id"
+  end
+
+  create_table "dishes_evaluations", id: false, force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "dish_id"
+    t.index ["dish_id"], name: "index_dishes_evaluations_on_dish_id"
+    t.index ["evaluation_id"], name: "index_dishes_evaluations_on_evaluation_id"
   end
 
   create_table "evaluations", force: :cascade do |t|
@@ -36,6 +43,13 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.index ["user_id"], name: "index_evaluations_on_user_id"
   end
 
+  create_table "evaluations_users", id: false, force: :cascade do |t|
+    t.integer "evaluation_id"
+    t.integer "user_id"
+    t.index ["evaluation_id"], name: "index_evaluations_users_on_evaluation_id"
+    t.index ["user_id"], name: "index_evaluations_users_on_user_id"
+  end
+
   create_table "menus", force: :cascade do |t|
     t.integer "restaurant_id"
     t.datetime "created_at", null: false
@@ -44,7 +58,7 @@ ActiveRecord::Schema.define(version: 20170901134134) do
   end
 
   create_table "restaurants", force: :cascade do |t|
-    t.string "tile"
+    t.string "title"
     t.string "description"
     t.string "main_photo"
     t.datetime "created_at", null: false
@@ -63,10 +77,6 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
     t.string "name"
     t.string "nickname"
     t.string "image"
@@ -74,7 +84,6 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
