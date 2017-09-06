@@ -3,8 +3,11 @@ class CreateEvaluations < ActiveRecord::Migration[5.1]
     create_table :evaluations do |t|
       t.integer :user_id
       t.integer :dish_id
+      t.integer :restaurant_id
       t.float :evaluation
       t.timestamps
     end
+
+    add_index :evaluations, [:user_id, :dish_id], unique: true
   end
 end

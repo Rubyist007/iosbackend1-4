@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :menu, only: [:create, :show]
   resources :dish, only: [:create, :show, :index]
   resources :evaluation, only: [:create, :show, :index]
+  resources :user, only: [:show, :index]
+  resources :relationship, only: [:create, :show, :destroy]
+  resources :news, only: [:show]
 end

@@ -38,6 +38,11 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
       t.string :nickname
       t.string :image
       t.string :email
+      t.integer :number_of_evaluations, default: 0
+      t.integer :average_ratings_evaluations, default: 0
+      t.integer :sum_ratings_of_evaluations, default: 0
+      t.integer :latitude
+      t.integer :longitude
 
       ## Tokens
       t.text :tokens

@@ -1,0 +1,2 @@
+class RatingRestaurant < ApplicationRecord
+end

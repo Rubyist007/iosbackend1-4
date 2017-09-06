@@ -1,5 +1,5 @@
 class Dish < ApplicationRecord
-  belongs_to :menu
+  belongs_to :restaurant
   has_and_belongs_to_many :evaluation
 
   validates_presence_of :name#, description, :photo, ingredients

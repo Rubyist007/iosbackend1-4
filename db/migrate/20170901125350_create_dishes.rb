@@ -1,7 +1,7 @@
 class CreateDishes < ActiveRecord::Migration[5.1]
   def change
     create_table :dishes do |t|
-      t.belongs_to :menu, index: true
+      t.belongs_to :restaurant, index: true
       t.string :name
       t.string :description
       t.string :photo
@@ -9,6 +9,7 @@ class CreateDishes < ActiveRecord::Migration[5.1]
       t.integer :number_of_ratings, default: 0
       t.integer :average_ratings, default: 0
       t.integer :sum_ratings, default: 0
+      t.integer :restaurant_id
       t.timestamps
     end
 

@@ -1,13 +1,13 @@
 class DishController < ApplicationController
   
   def create
-    dish = Restaurant.find(params[:id]).menu.dishes.create(dish_params)
+    dish = Restaurant.find(params[:id]).dishes.create(dish_params)
     dish.save
     render json: dish
   end
 
   def index
-    render json: Dish.where(menu_id: 1)
+    render json: Dish.all
   end
   
   def show

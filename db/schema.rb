@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901134134) do
+ActiveRecord::Schema.define(version: 20170906161130) do
 
   create_table "dishes", force: :cascade do |t|
-    t.integer "menu_id"
+    t.integer "restaurant_id"
     t.string "name"
     t.string "description"
     t.string "photo"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.integer "sum_ratings", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["menu_id"], name: "index_dishes_on_menu_id"
+    t.index ["restaurant_id"], name: "index_dishes_on_restaurant_id"
   end
 
   create_table "dishes_evaluations", id: false, force: :cascade do |t|
@@ -36,11 +36,11 @@ ActiveRecord::Schema.define(version: 20170901134134) do
   create_table "evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "dish_id"
-    t.integer "evaluation"
+    t.integer "restaurant_id"
+    t.float "evaluation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["dish_id"], name: "index_evaluations_on_dish_id"
-    t.index ["user_id"], name: "index_evaluations_on_user_id"
+    t.index ["user_id", "dish_id"], name: "index_evaluations_on_user_id_and_dish_id", unique: true
   end
 
   create_table "evaluations_users", id: false, force: :cascade do |t|
@@ -50,11 +50,25 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.index ["user_id"], name: "index_evaluations_users_on_user_id"
   end
 
-  create_table "menus", force: :cascade do |t|
+  create_table "rating_restaurants", force: :cascade do |t|
+    t.integer "user_id"
     t.integer "restaurant_id"
+    t.integer "count_evaluations"
+    t.float "sum_evaluations"
+    t.float "point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["restaurant_id"], name: "index_menus_on_restaurant_id"
+    t.index ["user_id"], name: "index_rating_restaurants_on_user_id"
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -81,6 +95,11 @@ ActiveRecord::Schema.define(version: 20170901134134) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.integer "number_of_evaluations", default: 0
+    t.integer "average_ratings_evaluations", default: 0
+    t.integer "sum_ratings_of_evaluations", default: 0
+    t.integer "latitude"
+    t.integer "longitude"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

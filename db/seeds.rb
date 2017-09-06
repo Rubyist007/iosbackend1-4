@@ -20,8 +20,6 @@ end
   )
 end
 
-Restaurant.all.each { |restaurant| restaurant.create_menu }
-
 Restaurant.all.each.with_index do |restaurant, n| 
-    restaurant.menu.dishes.create("name": "Dish #{n}")
+  restaurant.dishes.create("name": "Dish #{n}")
 end

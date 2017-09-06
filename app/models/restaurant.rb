@@ -1,5 +1,5 @@
 class Restaurant < ApplicationRecord
-  has_one :menu
+  has_many :dishes
 
   validates_presence_of :title, :description#, :main_photo
 
