@@ -16,7 +16,6 @@
     "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
     "confirmed_at": DateTime.now
   )
-  #user.skip_confirmation!
 end
 
 Admin.create( 
@@ -55,4 +54,3 @@ Restaurant.all.each do |restaurant|
   end
 end
 
-RatingRestaurant.create
