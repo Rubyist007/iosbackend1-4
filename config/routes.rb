@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :dish, only: [:show, :update]
   end
 
-  resources :restaurant, only: [:create, :show, :index] do
+  resources :restaurant, only: [:create, :show, :index, :update] do
     resources :dish, only: [:create, :index]
     collection do 
       get 'top_hundred'

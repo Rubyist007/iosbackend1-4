@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
   include Geocoder::Calculations
+
+  validates_presence_of :nickname, :email
+
   has_and_belongs_to_many :evaluation
 
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -19,7 +22,7 @@ class User < ActiveRecord::Base
 
   has_many :rating_restaurant
 
-  mount_uploader :avatar, AvatarUploader
+  mount_base64_uploader :avatar, AvatarUploader
 
   def news restaurant_class, distance, time=nil, coordinate=false
     evaluation = Evaluation.from_users_followed_by(self, time)

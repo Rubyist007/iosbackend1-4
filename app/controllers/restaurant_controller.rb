@@ -18,7 +18,9 @@ class RestaurantController < ApplicationController
   end
 
   def update
-    Restaurant.find(params[:id]).update_attributes(restaurant_params)
+    r = Restaurant.find(params[:id])
+    r.update_attributes(restaurant_params)
+    render json: r
   end
 
 

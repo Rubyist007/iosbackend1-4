@@ -1,2 +1,0 @@
-class RatingRestaurant < ApplicationRecord
-end
