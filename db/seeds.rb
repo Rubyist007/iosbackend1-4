@@ -9,17 +9,47 @@
 5.times do |n|
   User.create( 
     "email": "test#{n}@gmail.com",
-    "password": "123456789test" 
+    "password": "123456789test",
+    "latitude": "50.619808",
+    "longitude": "26.249667",
+    "avatar": open(Rails.root + "app/assets/images/testAvatar.png")
   )
 end
+
+Admin.create( 
+    "email": "admin@gmail.com",
+    "password": "123456789test"
+  )
 
 5.times do |n|
-  Restaurant.create(
-    "title": "Very good restaurant #{n}",
-    "description": "Description good restaurant #{n}" * 7 
-  )
+  if n < 2
+    Restaurant.create(
+      "title": "Very good restaurant #{n}",
+      "description": "Description good restaurant #{n}" * 7,
+      "latitude": "50.619638",
+      "longitude": "26.248218",
+      "facade": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
+      "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg")
+    )
+  else
+    Restaurant.create(
+      "title": "Very good restaurant #{n}",
+      "description": "Description good restaurant #{n}" * 7, 
+      "latitude": "50.631738",
+      "longitude": "26.273297",
+      "facade": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
+      "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg")
+    )
+  end
 end
 
-Restaurant.all.each.with_index do |restaurant, n| 
-  restaurant.dishes.create("name": "Dish #{n}")
+Restaurant.all.each do |restaurant| 
+  6.times.with_index do |i|
+    restaurant.dishes.create("name": "Dish #{i}",
+                             "description": "descripiton"*10,
+                             "photo": open(Rails.root + "app/assets/images/Dish.jpg"))
+
+  end
 end
+
+RatingRestaurant.create

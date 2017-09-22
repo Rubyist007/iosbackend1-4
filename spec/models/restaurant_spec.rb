@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe Restaurant, type: :model do
   
   before do 
-    @restaurant = Restaurant.new( title: 'Test restaurant',
-                                  description: 'restaurant description' * 10,
-                                  main_photo: nil )
+    @restaurant = create(:restaurant, :good, :rivne)
   end
 
   subject { @restaurant }

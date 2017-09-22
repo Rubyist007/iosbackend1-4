@@ -7,8 +7,9 @@ class CreateDishes < ActiveRecord::Migration[5.1]
       t.string :photo
       t.string :ingredients
       t.integer :number_of_ratings, default: 0
-      t.integer :average_ratings, default: 0
-      t.integer :sum_ratings, default: 0
+      t.float :average_ratings, default: 0
+      t.float :sum_ratings, default: 0
+      t.float :actual_rating 
       t.integer :restaurant_id
       t.timestamps
     end

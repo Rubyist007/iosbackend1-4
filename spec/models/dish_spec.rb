@@ -3,20 +3,10 @@ require 'rails_helper'
 RSpec.describe Dish, type: :model do
   
   before do 
-    restaurant = Restaurant.new( title: 'Test restaurant',
-                                 description: 'restaurant description' * 10,
-                                 main_photo: nil )
-    restaurant.create_menu
+    create(:restaurant, :good, :rivne)
 
-    @dish = restaurant.menu.dishes.create( 
-                      name: 'Test dish',
-                      description: 'restaurant description' * 10,
-                      photo: nil,
-                      ingredients: ['ing1', 'ing2'],
-                      number_of_ratings: 0,
-                      average_ratings: 0,
-                      sum_ratings: 0
-                                         )
+    @dish = create(:dish, :restaurant_one)
+
   end
 
   subject { @dish }
@@ -41,7 +31,7 @@ RSpec.describe Dish, type: :model do
     it { should_not be_valid }
   end
     
-  describe "Dish whose have description bigger than 500 symbols" do 
+  describe "Dish whose have description bigger than 300 symbols" do 
     before { @dish.description = 'a' * 501 }
     it { should_not be_valid }
   end

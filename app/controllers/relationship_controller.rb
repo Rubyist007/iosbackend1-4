@@ -1,7 +1,9 @@
 class RelationshipController < ApplicationController
 
+  before_action :authenticate_user! 
+
   def create
-    follower = User.find(params[:follower_id])
+    follower = current_user 
     followed = User.find(params[:followed_id])
     render json: follower.follow!(followed)
   end
@@ -11,8 +13,8 @@ class RelationshipController < ApplicationController
   end
 
   def destroy
-    follower = User.find(params[:follower_id])
-    followed = User.find(params[:followed_id])
+    follower = current_user
+    followed = User.find(params[:id])
     render json: follower.unfollow!(followed)
   end
 end

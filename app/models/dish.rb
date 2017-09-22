@@ -6,6 +6,7 @@ class Dish < ApplicationRecord
   
   validates :name, length: { maximum: 50 }
 
-  #validates :description, length: { minimum: 50, maximum: 300 }
+  validates :description, length: { minimum: 50, maximum: 300 }
 
+  mount_uploader :photo, DishUploader
 end
