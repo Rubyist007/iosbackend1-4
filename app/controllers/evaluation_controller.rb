@@ -1,6 +1,6 @@
 class EvaluationController < ApplicationController
 
-  before_action :authenticate_user! 
+  #before_action :authenticate_user! 
     
   def index
     render json: Evaluation.all
@@ -24,6 +24,19 @@ class EvaluationController < ApplicationController
 
   def show
     render json: Evaluation.where(user_id: params[:id])
+  end
+
+  def update
+    e = Evaluation.find(params[:id])
+    if current_user.id == e.user_id
+      e.update_attribute(:evaluation, evaluation_params[:evaluation])
+    end
+
+    dish = Dish.find(evaluation_params[:id])
+
+    update_rating_dish dish, evaluation_params[:evaluation]
+    update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
+    update_statistics_user current_user, evaluation_params[:evaluation]
   end
 
   def evaluation_user

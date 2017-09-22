@@ -1,7 +1,7 @@
 class RestaurantController < ApplicationController
 
-  before_action :authenticate_admin!, only: [:create]
-  before_action :authenticate_any!, expect: [:create]
+  #before_action :authenticate_admin!, only: [:create]
+  #before_action :authenticate_any!, expect: [:create]
 
   def index
     render json: Restaurant.all.first(10)
@@ -16,6 +16,11 @@ class RestaurantController < ApplicationController
   def show 
     render json: Restaurant.find(params[:id])
   end
+
+  def update
+    Restaurant.find(params[:id]).update_attributes(restaurant_params)
+  end
+
 
   def top_hundred
     render json: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100)
@@ -43,6 +48,6 @@ class RestaurantController < ApplicationController
   private
 
     def restaurant_params
-      params.require(:restaurant).permit(:title , :description)
+      params.require(:restaurant).permit(:title , :description, :facade, :logo, :latitude, :longitude)
     end
 end

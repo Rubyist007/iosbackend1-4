@@ -20,5 +20,15 @@ class UserController < ApplicationController
                                    ((params[:count].to_i).send(params[:time]).ago|| 1.month.ago),
                                    (params[:coordinate] || false))
   end
+
+  def update
+    current_user.update_attributes(user_params)
+  end
+
+  private 
+
+    def user_params
+      params.require(:user).permit(:name, :avatar, :nickname, :latitude, :longitude)
+    end
 end
 

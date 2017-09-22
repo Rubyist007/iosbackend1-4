@@ -12,8 +12,10 @@
     "password": "123456789test",
     "latitude": "50.619808",
     "longitude": "26.249667",
-    "avatar": open(Rails.root + "app/assets/images/testAvatar.png")
+    "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
+    "confirmed_at": DateTime.now
   )
+  #user.skip_confirmation!
 end
 
 Admin.create( 

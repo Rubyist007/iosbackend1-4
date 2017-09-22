@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   concern :dish_show do
-    resources :dish, only: [:show]
+    resources :dish, only: [:show, :update]
   end
 
   resources :restaurant, only: [:create, :show, :index] do
@@ -23,10 +23,12 @@ Rails.application.routes.draw do
 
   concerns :dish_show
 
-  resources :evaluation, only: [:create, :show, :index]
+  resources :evaluation, only: [:create, :show, :index, :update] 
+
   resources :user, only: [:show, :index] do
     collection do 
       post 'news'
+      post 'update'
       get 'thank'
     end
   end
