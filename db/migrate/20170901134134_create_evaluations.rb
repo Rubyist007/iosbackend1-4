@@ -5,6 +5,7 @@ class CreateEvaluations < ActiveRecord::Migration[5.1]
       t.integer :dish_id
       t.integer :restaurant_id
       t.float :evaluation
+      t.string :comment
       t.timestamps
     end
 
