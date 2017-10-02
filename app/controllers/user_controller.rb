@@ -1,6 +1,8 @@
 class UserController < ApplicationController
   
- # before_action :authenticate_user!  
+ #before_action :authenticate_user!, only: [:update, :news]
+ #before_action :authenticate_any!, expect: [:update, :news, :thank]
+
 
   def index
     render json: User.all
@@ -8,6 +10,8 @@ class UserController < ApplicationController
 
   def show 
     render json: User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: {status: 404, error: "Couldn't find User with 'id'=#{params[:id]}"}, status: 404
   end
 
   def thank
@@ -28,7 +32,7 @@ class UserController < ApplicationController
   private 
 
     def user_params
-      params.require(:user).permit(:name, :avatar, :nickname, :latitude, :longitude)
+      params.require(:user).permit(:first_name, :avatar, :last_name, :latitude, :longitude)
     end
 end
 

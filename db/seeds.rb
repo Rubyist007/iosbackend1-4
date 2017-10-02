@@ -8,7 +8,6 @@
 
 5.times do |n|
   User.create( 
-    "nickname": "User-#{n}",
     "email": "test#{n}@gmail.com",
     "password": "123456789test",
     "latitude": "50.619808",
@@ -18,9 +17,15 @@
   )
 end
 
-Admin.create( 
+
+User.create( 
     "email": "admin@gmail.com",
-    "password": "123456789test"
+    "password": "123456789test",
+    "latitude": "50.619808",
+    "longitude": "26.249667",
+    "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
+    "confirmed_at": DateTime.now,
+    "admin": true
   )
 
 5.times do |n|
@@ -30,6 +35,8 @@ Admin.create(
       "description": "Description good restaurant #{n}" * 7,
       "latitude": "50.619638",
       "longitude": "26.248218",
+      "state": "test state",
+      "city": "test city",
       "facade": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
       "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg")
     )

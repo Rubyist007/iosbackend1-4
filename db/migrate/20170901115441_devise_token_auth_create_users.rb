@@ -44,7 +44,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
       t.float :sum_ratings_of_evaluations, default: 0
       t.float :latitude
       t.float :longitude
-
+      t.boolean :admin, default: false
       ## Tokens
       t.text :tokens
 

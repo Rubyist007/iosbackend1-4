@@ -1,7 +1,7 @@
 class RestaurantController < ApplicationController
 
-  #before_action :authenticate_admin!, only: [:create]
-  #before_action :authenticate_any!, expect: [:create]
+  #before_action :current_user_admin?, only: [:create, :update]
+  #before_action :authenticate_user!, expect: [:create, :update]
 
   def index
     render json: Restaurant.all.first(10)
@@ -9,12 +9,17 @@ class RestaurantController < ApplicationController
 
   def create
     restaurant = Restaurant.new(restaurant_params)
-    restaurant.save
-    render json: restaurant
+    if restaurant.save
+      render json: restaurant
+    else
+      render json: {status: 422, error: restaurant.errors.full_messages}, status: 422
+    end
   end
 
   def show 
     render json: Restaurant.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: {status: 404, error: "Couldn't find Restaurant with 'id'=#{params[:id]}"}, status: 404
   end
 
   def update
@@ -22,7 +27,6 @@ class RestaurantController < ApplicationController
     r.update_attributes(restaurant_params)
     render json: r
   end
-
 
   def top_hundred
     render json: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100)
@@ -38,7 +42,6 @@ class RestaurantController < ApplicationController
                                       city: params[:city] || nil).
     order(actual_rating: :desc).limit(10)
   end
-
 
   def near
     raise "Dont have distance" if params[:distance] == nil
