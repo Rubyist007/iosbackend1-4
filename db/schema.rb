@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170906161130) do
+ActiveRecord::Schema.define(version: 20170906101115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20170906161130) do
     t.integer "dish_id"
     t.integer "restaurant_id"
     t.float "evaluation"
-    t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "dish_id"], name: "index_evaluations_on_user_id_and_dish_id", unique: true
@@ -53,14 +52,6 @@ ActiveRecord::Schema.define(version: 20170906161130) do
     t.bigint "user_id"
     t.index ["evaluation_id"], name: "index_evaluations_users_on_evaluation_id"
     t.index ["user_id"], name: "index_evaluations_users_on_user_id"
-  end
-
-  create_table "rating_restaurants", force: :cascade do |t|
-    t.integer "count_evaluations", default: 0
-    t.float "sum_evaluations", default: 0.0
-    t.float "average_evaluations", default: 0.0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -84,8 +75,10 @@ ActiveRecord::Schema.define(version: 20170906161130) do
     t.float "actual_rating"
     t.float "latitude"
     t.float "longitude"
+    t.string "address"
+    t.string "street"
+    t.string "city/district"
     t.string "state"
-    t.string "city"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

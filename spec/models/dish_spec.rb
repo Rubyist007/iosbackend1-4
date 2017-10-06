@@ -6,7 +6,6 @@ RSpec.describe Dish, type: :model do
     create(:restaurant, :good, :rivne)
 
     @dish = create(:dish, :restaurant_one)
-
   end
 
   subject { @dish }

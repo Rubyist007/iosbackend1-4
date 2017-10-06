@@ -11,8 +11,10 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
       t.float :actual_rating
       t.float :latitude
       t.float :longitude
+      t.string :address
+      t.string :street
+      t.string :"city/district"
       t.string :state
-      t.string :city
       t.timestamps
     end
   end

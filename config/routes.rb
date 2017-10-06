@@ -1,9 +1,8 @@
 Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  mount_devise_token_auth_for 'User', at: 'user', controllers: {registrations: 'override_device_controller/registrations'}, skip: [:omniauth, :omniauth_callbacks]
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   concern :dish_show do
     resources :dish, only: [:show, :update]
   end
@@ -24,9 +23,8 @@ Rails.application.routes.draw do
   resources :user, only: [:show, :index] do
     collection do 
       post 'news'
-      post 'update'
       get 'thank'
     end
   end
-  resources :relationship, only: [:create, :show, :destroy]
+  #resources :relationship, only: [:create, :show, :destroy]
 end

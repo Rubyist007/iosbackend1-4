@@ -1,7 +1,7 @@
 class RestaurantController < ApplicationController
 
-  #before_action :current_user_admin?, only: [:create, :update]
-  #before_action :authenticate_user!, expect: [:create, :update]
+ before_action :current_user_admin?, only: [:create, :update]
+ before_action :authenticate_user!, expect: [:create, :update]
 
   def index
     render json: Restaurant.all.first(10)
@@ -33,18 +33,18 @@ class RestaurantController < ApplicationController
   end
 
   def top_ten_in_region
-    raise "Dont have state" if params[:state] == nil
+    render json: {status: 422, error: "You must provide state"} if params[:state] == nil
     render json: Restaurant.all.where("number_of_ratings >= :limitation 
                                       AND state = :state
                                       AND (:city IS NULL OR city = :city)",
                                       limitation: 50, 
                                       state: params[:state],
-                                      city: params[:city] || nil).
+                                      city: params[:"city/district"] || nil).
     order(actual_rating: :desc).limit(10)
   end
 
   def near
-    raise "Dont have distance" if params[:distance] == nil
+    render json: {status: 422, error: "You must provide distance"} if params[:distance] == nil
     render json: Restaurant.near([current_user.latitude, 
                                   current_user.longitude], 
                                   params[:distance])

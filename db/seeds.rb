@@ -9,6 +9,8 @@
 5.times do |n|
   User.create( 
     "email": "test#{n}@gmail.com",
+    "first_name": "name_user#{n}",
+    "last_name": "sname_user#{n}",
     "password": "123456789test",
     "latitude": "50.619808",
     "longitude": "26.249667",
@@ -33,10 +35,8 @@ User.create(
     Restaurant.create(
       "title": "Very good restaurant #{n}",
       "description": "Description good restaurant #{n}" * 7,
-      "latitude": "50.619638",
-      "longitude": "26.248218",
-      "state": "test state",
-      "city": "test city",
+      "latitude": "41.318641",
+      "longitude": "-72.933905",
       "facade": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
       "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg")
     )

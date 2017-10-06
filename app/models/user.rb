@@ -7,7 +7,17 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   include Geocoder::Calculations
 
-  validates_presence_of :email, :password, :first_name, :last_name
+  validates_presence_of :email, :password, :first_name, :last_name, on: :create
+
+  validates_format_of :password, with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,128}\z/, allow_blank: true
+  validates_length_of [:first_name, :last_name], in: 2..30
+  validates_length_of :email, in: 6..72
+  validates_length_of :number_phone, is: 12, on: :update, allow_blank: true
+  validates :latitude, numericality: { only_float: true }, on: :update, allow_blank: true
+  validates :longitude, numericality: { only_float: true }, on: :update, allow_blank: true
+
+  validate :validate_latitude, on: :update
+  validate :validate_longitude, on: :update
 
   has_and_belongs_to_many :evaluation
 
@@ -87,4 +97,18 @@ class User < ActiveRecord::Base
   def unfollow! other_user
     relationships.find_by(followed_id: other_user.id).destroy!
   end
+
+  private
+    
+    def validate_latitude
+      latitude = self.latitude.to_s
+      return true if latitude.blank?
+      return false if latitude.match(/\A(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
+    end
+
+    def validate_longitude
+      longitude = self.longitude.to_s
+      return true if latitude.blank?
+      return false if longitude.match(/\A(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
+    end
 end

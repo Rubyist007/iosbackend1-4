@@ -11,5 +11,8 @@ FactoryGirl.define do
     trait :restaurant_two do
       restaurant_id 2
     end
+
+    price 10.01
+    photo {open(Rails.root + "app/assets/images/Dish.jpg")}
   end
 end
