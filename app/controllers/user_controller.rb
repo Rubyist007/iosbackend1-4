@@ -3,11 +3,11 @@ class UserController < ApplicationController
  #before_action :authenticate_user!, only: [:index, :show, :news]
 
   def index
-    render json: User.all
+    render json: {Data: User.all}
   end
 
   def show 
-    render json: User.find(params[:id])
+    render json: {Data: User.find(params[:id])}
   rescue ActiveRecord::RecordNotFound
     render json: {status: 404, error: "Couldn't find User with 'id'=#{params[:id]}"}, status: 404
   end
@@ -17,10 +17,10 @@ class UserController < ApplicationController
   end
 
   def news
-    render json: current_user.news(Restaurant, 
+    render json: {Data: current_user.news(Restaurant, 
                                    params[:distance], 
                                    ((params[:count].to_i).send(params[:time]).ago|| 1.month.ago),
-                                   (params[:coordinate] || false))
+                                   (params[:coordinate] || false))}
   end
 end
 

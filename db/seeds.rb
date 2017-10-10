@@ -38,7 +38,11 @@ User.create(
       "latitude": "41.318641",
       "longitude": "-72.933905",
       "facade": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
-      "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg")
+      "logo": open(Rails.root + "app/assets/images/restaurant-logo.jpg"),
+      "number_of_ratings": "60",
+      "sum_ratings": "300",
+      "average_ratings": "5",
+      "actual_rating": "4.62"
     )
   else
     Restaurant.create(
@@ -61,3 +65,32 @@ Restaurant.all.each do |restaurant|
   end
 end
 
+#120.times do |n|
+  #if n < 50
+    2.times do |u|
+      user = u+1
+      5.times do |d|
+        dish = d+1
+        Evaluation.create(
+          "user_id": user,
+          "restaurant_id": 1,
+          "evaluation": 5,
+          "dish_id": dish
+        )
+      end
+    end
+ # else
+    3.times do |u|
+      user = u+3
+      5.times do |d|
+        dish = d+1
+        Evaluation.create(
+          "user_id": user,
+          "restaurant_id": 2,
+          "evaluation": 4,
+          "dish_id": dish
+        )
+      end
+    end
+  #end
+#end

@@ -6,7 +6,7 @@ class DishController < ApplicationController
   def create
     dish = Restaurant.find(params[:restaurant_id]).dishes.create(dish_params)
     if dish.save
-      render json: dish
+      render json: {Data: dish}
     else
       render json: {status: 422, error: dish.errors.full_messages}, status: 422
     end
@@ -15,13 +15,13 @@ class DishController < ApplicationController
   end
 
   def index
-    render json: Restaurant.find(params[:restaurant_id]).dishes
+    render json: {Data: Restaurant.find(params[:restaurant_id]).dishes}
   rescue ActiveRecord::RecordNotFound
     render json: {status: 404, error: "Couldn't find Restaurant with 'id'=#{params[:restaurant_id]}"}, status: 404
   end
   
   def show
-    render json: Dish.find(params[:id])
+    render json: {Data: Dish.find(params[:id])}
   rescue ActiveRecord::RecordNotFound
     render json: {status: 404, error: "Couldn't find Dish with 'id'=#{params[:id]}"}, status: 404
   end

@@ -19,11 +19,11 @@ class EvaluationController < ApplicationController
     update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
     update_statistics_user current_user, evaluation_params[:evaluation]
       
-    render json: evaluation
+    render json: {Data: evaluation}
   end
 
   def show
-    render json: Evaluation.where(user_id: params[:id])
+    render json: {Data: Evaluation.where(user_id: params[:id])}
   end
 
   def update
