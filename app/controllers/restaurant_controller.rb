@@ -29,7 +29,7 @@ class RestaurantController < ApplicationController
   end
 
   def top_hundred
-    render json: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100)
+    render json: { Data: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
   end
 
   def top_ten_in_region
