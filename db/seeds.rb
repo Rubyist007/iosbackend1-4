@@ -9,8 +9,8 @@
 5.times do |n|
   User.create( 
     "email": "test#{n}@gmail.com",
-    "first_name": "name_user#{n}",
-    "last_name": "sname_user#{n}",
+    #"first_name": "name_user#{n}",
+    #"last_name": "sname_user#{n}",
     "password": "123456789test",
     "latitude": "50.619808",
     "longitude": "26.249667",
