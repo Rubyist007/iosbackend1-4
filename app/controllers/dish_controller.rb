@@ -1,7 +1,7 @@
 class DishController < ApplicationController
   
-  before_action :current_user_admin?, only: [:create, :update]
-  before_action :authenticate_any!, expect: [:create, :update]
+  #before_action :current_user_admin?, only: [:create, :update]
+  #before_action :authenticate_any!, expect: [:create, :update]
 
   def create
     dish = Restaurant.find(params[:restaurant_id]).dishes.create(dish_params)
