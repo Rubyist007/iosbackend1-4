@@ -4,7 +4,7 @@ class RestaurantController < ApplicationController
  #before_action :authenticate_user!, expect: [:create, :update]
 
   def index
-    render json: Restaurant.all.first(10)
+    render json: {Data: Restaurant.all.first(10)}
   end
 
   def create
@@ -12,14 +12,14 @@ class RestaurantController < ApplicationController
     if restaurant.save
       render json: {Data: restaurant}
     else
-      render json: {status: 422, error: restaurant.errors.full_messages}, status: 422
+      render json: {status: 422, errors: restaurant.errors.full_messages}, status: 422
     end
   end
 
   def show 
     render json: {Data: Restaurant.find(params[:id])}
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, error: "Couldn't find Restaurant with 'id'=#{params[:id]}"}, status: 404
+    render json: {status: 404, errors: "Couldn't find Restaurant with 'id'=#{params[:id]}"}, status: 404
   end
 
   def update
@@ -32,8 +32,10 @@ class RestaurantController < ApplicationController
     render json: { Data: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
   end
 
-  def top_ten_in_region
-    render json: {status: 422, error: "You must provide state"} if params[:state] == nil
+  def top_ten_in_city
+    render json: {status: 422, errors: "You must provide state"} if params[:state] == nil
+    render json: {status: 422, errors: "You must provide city"} if params[:city] == nil
+
     render json: {Data: Restaurant.all.where("number_of_ratings >= :limitation 
                                       AND state = :state
                                       AND (:city IS NULL OR city = :city)",
@@ -44,7 +46,7 @@ class RestaurantController < ApplicationController
   end
 
   def near
-    render json: {status: 422, error: "You must provide distance"} if params[:distance] == nil
+    render json: {status: 422, errors: "You must provide distance"} if params[:distance] == nil
     render json: {Data: Restaurant.near([current_user.latitude, 
                                   current_user.longitude], 
                                   params[:distance])}
@@ -53,6 +55,6 @@ class RestaurantController < ApplicationController
   private
 
     def restaurant_params
-      params.require(:restaurant).permit(:title , :description, :facade, :logo, :latitude, :longitude)
+      params.require(:restaurant).permit(:title , :description, :latitude, :longitude, :g_id, photos: [])
     end
 end

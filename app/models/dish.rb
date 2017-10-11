@@ -2,7 +2,7 @@ class Dish < ApplicationRecord
   belongs_to :restaurant
   has_and_belongs_to_many :evaluation
 
-  validates_presence_of :name, :description, :photo, :price#, ingredients
+  validates_presence_of :name, :description, :type_dish, :price#, ingredients
   
   validates :name, length: { maximum: 50 }
 

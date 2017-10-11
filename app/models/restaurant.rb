@@ -1,8 +1,16 @@
 class Restaurant < ApplicationRecord
   has_many :dishes
   
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :reverse_geocode, :parse_address
+  after_validation :reverse_geocode
+
+  reverse_geocoded_by :latitude, :longitude do |restaurant, results|
+    if geo = results.first
+      restaurant.address = geo.address
+      restaurant.street = geo.address.split(",")[0].strip
+      restaurant.city = geo.city
+      restaurant.state = geo.state
+    end
+  end
   
   validates_presence_of :title, :description, :latitude, :longitude#, [photos]
 
@@ -13,10 +21,7 @@ class Restaurant < ApplicationRecord
   validate :validate_latitude
   validate :validate_longitude
 
-  mount_base64_uploader :facade, FacadeUploader
-  mount_base64_uploader :logo, LogoUploader
-
-
+  mount_base64_uploaders :photos, PhotosRestaurantUploader
 
   private
     
@@ -30,11 +35,5 @@ class Restaurant < ApplicationRecord
       longitude = self.longitude.to_s
       return true if latitude.blank?
       return false if longitude.match(/\A(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
-    end
-
-    def parse_address
-      self.street = self.address.split(",")[0].strip
-      self.send('city/district=', self.address.split(",")[1].strip)
-      self.state = self.address.split(",")[2].strip
     end
 end

@@ -3,8 +3,7 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
     create_table :restaurants do |t|
       t.string :title
       t.string :description
-      t.string :facade
-      t.string :logo
+      t.string :photos, array: true
       t.integer :number_of_ratings, default: 0
       t.float :average_ratings, default: 0
       t.float :sum_ratings, default: 0
@@ -13,8 +12,9 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
       t.float :longitude
       t.string :address
       t.string :street
-      t.string :"city/district"
+      t.string :city
       t.string :state
+      t.string :g_id
       t.timestamps
     end
   end

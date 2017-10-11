@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :dish, only: [:create, :index]
     collection do 
       get 'top_hundred'
-      post 'top_ten_in_region'
+      post 'top_ten_in_city'
       post 'near'
     end
   end

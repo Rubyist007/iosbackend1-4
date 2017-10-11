@@ -4,6 +4,8 @@ class Evaluation < ApplicationRecord
 
   validates :evaluation, numericality: { less_than_or_equal: 5.00 }
 
+  mount_base64_uploader :photo, EvaluationPhotoUploader
+
   def self.from_users_followed_by user, time_ago 
     followed_user_ids = "SELECT followed_id FROM relationships 
                          WHERE follower_id = :user_id" 

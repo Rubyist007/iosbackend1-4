@@ -9,7 +9,7 @@ class UserController < ApplicationController
   def show 
     render json: {Data: User.find(params[:id])}
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, error: "Couldn't find User with 'id'=#{params[:id]}"}, status: 404
+    render json: {status: 404, errors: "Couldn't find User with 'id'=#{params[:id]}"}, status: 404
   end
 
   def thank

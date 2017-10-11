@@ -1,4 +1,4 @@
-class LogoUploader < CarrierWave::Uploader::Base
+class PhotosRestaurantUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick

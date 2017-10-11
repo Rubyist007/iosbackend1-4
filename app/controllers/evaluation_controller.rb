@@ -46,7 +46,7 @@ class EvaluationController < ApplicationController
   private 
 
     def evaluation_params 
-      params.require(:evaluation).permit(:dish_id, :evaluation)
+      params.require(:evaluation).permit(:dish_id, :evaluation, :photo)
     end
 
     def update_rating_dish dish, evaluation

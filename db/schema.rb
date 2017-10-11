@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20170906101115) do
     t.string "description"
     t.string "photo"
     t.string "price"
+    t.string "type_dish"
     t.integer "number_of_ratings", default: 0
     t.float "average_ratings", default: 0.0
     t.float "sum_ratings", default: 0.0
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170906101115) do
     t.integer "dish_id"
     t.integer "restaurant_id"
     t.float "evaluation"
+    t.string "photo", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "dish_id"], name: "index_evaluations_on_user_id_and_dish_id", unique: true
@@ -67,8 +69,7 @@ ActiveRecord::Schema.define(version: 20170906101115) do
   create_table "restaurants", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.string "facade"
-    t.string "logo"
+    t.string "photos", array: true
     t.integer "number_of_ratings", default: 0
     t.float "average_ratings", default: 0.0
     t.float "sum_ratings", default: 0.0
@@ -77,8 +78,9 @@ ActiveRecord::Schema.define(version: 20170906101115) do
     t.float "longitude"
     t.string "address"
     t.string "street"
-    t.string "city/district"
+    t.string "city"
     t.string "state"
+    t.string "g_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
