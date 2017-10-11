@@ -21,6 +21,8 @@ class Restaurant < ApplicationRecord
   validate :validate_latitude
   validate :validate_longitude
 
+  validates_length_of :photos, maximum: 10
+
   mount_base64_uploaders :photos, PhotosRestaurantUploader
 
   private
