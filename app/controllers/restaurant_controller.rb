@@ -33,8 +33,8 @@ class RestaurantController < ApplicationController
   end
 
   def top_ten_in_city
-    render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
-    render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
+    return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
+    return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
     render json: {data: Restaurant.all.where("number_of_ratings >= :limitation 
                                               AND state = :state
@@ -46,7 +46,7 @@ class RestaurantController < ApplicationController
   end
 
   def near
-    render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
+    return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
     render json: {data: Restaurant.near([current_user.latitude, 
                                          current_user.longitude], 
                                          request.headers["distance"])}
@@ -55,6 +55,6 @@ class RestaurantController < ApplicationController
   private
 
     def restaurant_params
-      params.require(:restaurant).permit(:title , :description, :latitude, :longitude, :g_id, photos: [])
+      params.require(:restaurant).permit(:title , :description, :latitude, :longitude, :number_of_ratings, :actual_rating, :g_id, photos: [])
     end
 end

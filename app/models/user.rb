@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  def feed restaurant_class, distance, time=nil, coordinate
+  def feed restaurant_class, distance, time, coordinate
     #evaluation = Evaluation.from_users_followed_by(self, time)
     #evaluation_dish = Dish.find(evaluation.map { |e| e.dish_id })
     
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
       #near_restaurant_from_evaluation = []
       #near_restaurant_id_from_evaluation = []
       #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-      near_restaurant = Restaurant.near([41.318641, -72.933905], 5000)
+      near_restaurant = Restaurant.near(coordinate, distance)
 
       evaluation = []
       dishes = []
