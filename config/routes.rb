@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   resources :user, only: [:show, :index] do
     collection do 
-      get 'news'
+      get 'feed'
       get 'thank'
     end
   end

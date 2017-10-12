@@ -55,39 +55,47 @@ end
 
 Restaurant.all.each do |restaurant| 
   6.times.with_index do |i|
-    restaurant.dishes.create("name": "Dish #{i}",
-                             "description": "descripiton"*10,
-                             "photo": open(Rails.root + "app/assets/images/Dish.jpg"))
+    dish = restaurant.dishes.create("name": "Dish #{i}",
+                             "description": "descripiton"*13,
+                             "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
+                             "type_dish": "pizza",
+                             "price": 20)
+    dish.evaluation.create(
+          "user_id": 1,
+          "restaurant_id": restaurant.id,
+          "evaluation": 5,
+          "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
+        )
 
   end
 end
 
 #120.times do |n|
   #if n < 50
-    2.times do |u|
-      user = u+1
-      5.times do |d|
-        dish = d+1
-        Evaluation.create(
-          "user_id": user,
-          "restaurant_id": 1,
-          "evaluation": 5,
-          "dish_id": dish
-        )
-      end
-    end
+    #2.times do |u|
+    #  user = u+1
+    #  5.times do |d|
+    #    dish = d+1
+    #    Evaluation.create(
+    #      "user_id": user,
+    #      "restaurant_id": 1,
+    #      "evaluation": 5,
+    #      "dish_id": dish
+    #    )
+    #  end
+    #end
  # else
-    3.times do |u|
-      user = u+3
-      5.times do |d|
-        dish = d+1
-        Evaluation.create(
-          "user_id": user,
-          "restaurant_id": 2,
-          "evaluation": 4,
-          "dish_id": dish
-        )
-      end
-    end
+    #3.times do |u|
+    #  user = u+3
+    #  5.times do |d|
+    #    dish = d+1
+    #    Evaluation.create(
+    #      "user_id": user,
+    #      "restaurant_id": 2,
+    #      "evaluation": 4,
+    #      "dish_id": dish
+    #    )
+    #  end
+    #end
   #end
 #end

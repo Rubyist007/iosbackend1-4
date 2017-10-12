@@ -16,11 +16,11 @@ class UserController < ApplicationController
     render json: "Thank for confirm email!"
   end
 
-  def news
-    render json: {data: current_user.news(Restaurant, 
-                                   params[:distance], 
-                                   ((params[:count].to_i).send(params[:time]).ago|| 1.month.ago),
-                                   (params[:coordinate] || false))}
+  def feed
+    render json: {data: current_user.feed(Restaurant, 
+                                   request.headers["distance"], 
+                                   ((request.headers["count"].to_i).send(request.headers["time"]).ago|| 1.month.ago),
+                                    [current_user.latitude, current_user.longitude])}
   end
 end
 

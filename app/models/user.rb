@@ -34,51 +34,94 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
-  def news restaurant_class, distance, time=nil, coordinate=false
-    evaluation = Evaluation.from_users_followed_by(self, time)
-    evaluation_dish = Dish.find(evaluation.map { |e| e.dish_id })
+  def feed restaurant_class, distance, time=nil, coordinate
+    #evaluation = Evaluation.from_users_followed_by(self, time)
+    #evaluation_dish = Dish.find(evaluation.map { |e| e.dish_id })
     
     if coordinate
-      restaurant_from_evaluation = restaurant_class.find(evaluation.map { |e| e.restaurant_id })
+      #restaurant_from_evaluation = restaurant_class.find(evaluation.map { |e| e.restaurant_id })
 
-      near_restaurant_from_evaluation = []
-      near_restaurant_id_from_evaluation = []
-    
-      restaurant_from_evaluation.each do |r|
-        if Geocoder::Calculations.distance_between([self.latitude, self.longitude], [r.latitude, r.longitude]) < distance.to_f
-          near_restaurant_from_evaluation << r
-          near_restaurant_id_from_evaluation << r.id
-        end
-      end
-    
+      #near_restaurant_from_evaluation = []
+      #near_restaurant_id_from_evaluation = []
+      #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+      near_restaurant = Restaurant.near([41.318641, -72.933905], 5000)
+
+      evaluation = []
+      dishes = []
       result = []
-    
-      evaluation.each do |e|
-        next unless near_restaurant_id_from_evaluation.include? e.restaurant_id
 
-        r = near_restaurant_from_evaluation.find {|restaura| restaura.id == e.restaurant_id}
-        d = evaluation_dish.find { |dish| dish.id == e.dish_id }
-        u = self.class.find(e.user_id)
-        result << [e, r, d, u]
+      near_restaurant.each do |r|
+        #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+
+        r.dishes.count
+        offset = rand(r.dishes.count)
+        dishes << r.dishes.offset(offset).first
       end
 
-      good_restaurant = []
-      near_restaurant_from_evaluation.each do |r|
-        if r.actual_rating >= 3.5
-          good_restaurant << r
+      dishes.each do |d|
+          #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          #evaluation << d.evaluation
+          evaluation << d.evaluation.where("updated_at >= :time", 
+          time: time).limit(1).order("updated_at DESC")
+          #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+          #p d.evaluation
         end
+
+        
+      evaluation.each do |e|
+        #p e
+        #p e[0].user_id
+        #p e[0].restaurant_id
+        r = restaurant_class.find(e[0].restaurant_id)
+        p dishes[0].id
+        p dishes[1].id
+        p '-'
+        p e[0].dish_id
+        p e[0]
+
+        d = dishes.find { |dish| dish.id == e[0].dish_id }
+        #d = dishes.find { |dish| p dish  }
+        u = self.class.find(e[0].user_id)
+        result << [e[0], r, d, u]
       end
 
-      return [result, good_restaurant]
-    else
-      result = []
-      evaluation.each do |e|
-        r = restaurant_class.find(e.restaurant_id)
-        d = evaluation_dish.find { |dish| dish.id == e.dish_id }
-        u = self.class.find(e.user_id)
-        result << [e, r, d, u]
-      end
-      return result
+      result
+
+      #restaurant_from_evaluation.each do |r|
+      #  if Geocoder::Calculations.distance_between([self.latitude, self.longitude], [r.latitude, r.longitude]) < distance.to_f
+      #    near_restaurant_from_evaluation << r
+      #    near_restaurant_id_from_evaluation << r.id
+      #  end
+      #end
+    
+      #result = []
+    
+      #evaluation.each do |e|
+      #  next unless near_restaurant_id_from_evaluation.include? e.restaurant_id
+
+      #  r = near_restaurant_from_evaluation.find {|restaura| restaura.id == e.restaurant_id}
+      #  d = evaluation_dish.find { |dish| dish.id == e.dish_id }
+      #  u = self.class.find(e.user_id)
+      #  result << [e, r, d, u]
+      #end
+
+      #good_restaurant = []
+      #near_restaurant_from_evaluation.each do |r|
+      #  if r.actual_rating >= 3.5
+      #    good_restaurant << r
+      #  end
+      #end
+
+      #return [result, good_restaurant]
+    #else
+      #result = []
+      #evaluation.each do |e|
+      #  r = restaurant_class.find(e.restaurant_id)
+      #  d = evaluation_dish.find { |dish| dish.id == e.dish_id }
+      #  u = self.class.find(e.user_id)
+      #  result << [e, r, d, u]
+      #end
+      #return result
     end
   end
 

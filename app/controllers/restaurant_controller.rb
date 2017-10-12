@@ -46,7 +46,7 @@ class RestaurantController < ApplicationController
   end
 
   def near
-    render json: {status: 422, errors: "You must provide distance"} if params[:distance] == nil
+    render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
     render json: {data: Restaurant.near([current_user.latitude, 
                                          current_user.longitude], 
                                          request.headers["distance"])}
