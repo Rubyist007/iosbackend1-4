@@ -28,6 +28,14 @@ class RestaurantController < ApplicationController
     render json: {data: r}
   end
 
+
+  def all_restaurant_in_city
+    return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
+    return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
+
+    render json: { data: Restaurant.where("city = :city AND state = :state", city: request.headers["city"], state: request.headers["state"]) }
+  end
+
   def top_hundred
     render json: { data: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
   end

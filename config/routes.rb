@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :restaurant, only: [:create, :show, :index, :update] do
     resources :dish, only: [:create, :index]
     collection do 
+      get 'all_restaurant_in_city'
       get 'top_hundred'
       get 'top_ten_in_city'
       get 'near'
