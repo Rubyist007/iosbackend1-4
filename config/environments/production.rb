@@ -52,9 +52,13 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "backend_iOS_API_#{Rails.env}"
-
+ 
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: 'key-cf696ec28d426e53abaf0a3653ce7dea',
+    domain: 'sandbox6c8063d955234a3a8d59ebe240367df1.mailgun.org'
+  }
   config.action_mailer.perform_caching = false
-#  config.action_mailer.default_url_options = { host: "sandboxa1e3a678a45a4484a0e942171ac86982.mailgun.org" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
