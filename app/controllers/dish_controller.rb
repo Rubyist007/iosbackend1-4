@@ -33,7 +33,7 @@ class DishController < ApplicationController
   private
 
     def dish_params
-      params.require(:dish).permit(:name , :description, :latitude, :longitude, :photo, :type_dish)
+      params.require(:dish).permit(:name , :description, :latitude, :longitude, :photo, :type_dish, :price)
     end
 end
 
