@@ -33,7 +33,8 @@ class RestaurantController < ApplicationController
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: { data: Restaurant.where("city = :city AND state = :state", city: request.headers["city"], state: request.headers["state"]) }
+    render json: { data: Restaurant.where("city = :city AND state = :state", 
+                   city: request.headers["city"], state: request.headers["state"] )}
   end
 
   def top_hundred

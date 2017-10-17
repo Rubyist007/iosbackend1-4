@@ -16,6 +16,10 @@ class UserController < ApplicationController
     render json: "Thank for confirm email!"
   end
 
+  def send_mail
+    AdministationMailer.messaage.deliver_now
+  end
+
   def feed
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
     render json: {data: current_user.feed(Restaurant, 

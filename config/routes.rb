@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     collection do 
       get 'feed'
       get 'thank'
+      post 'send_mail'
     end
   end
   #resources :relationship, only: [:create, :show, :destroy]
