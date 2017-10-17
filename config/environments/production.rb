@@ -54,8 +54,8 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "backend_iOS_API_#{Rails.env}"
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
-    api_key: 'key-ca74b7d3c22e11e6034870d03c4eba83',
-    domain: 'sandbox46b5b95dac97447ca3b162b57a058f6d.mailgun.org'
+    api_key: 'key-f0a6a5ac004ae433b7647b4d6cbb9c34',
+    domain: 'sandboxa1e3a678a45a4484a0e942171ac86982.mailgun.org'
   }
   config.action_mailer.perform_caching = false
 
