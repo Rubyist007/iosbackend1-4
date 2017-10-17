@@ -10,6 +10,6 @@ ActionMailer::Base.smtp_settings = {
   domain: 'https://iosbackend-test.herokuapp.com/',
   address: 'smtp.sendgrid.net',
   port: '587',
-  authentication: :starter,
+  authentication: :plain,
   enable_strattls_auto: true
 }
