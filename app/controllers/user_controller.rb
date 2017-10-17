@@ -17,7 +17,7 @@ class UserController < ApplicationController
   end
 
   def report
-    ReportMailer.messaage(params[:subject], params[:text]).deliver
+    ReportMailer.report(params[:subject], params[:text]).deliver
     render json: {data: 'Done'}
   end
 

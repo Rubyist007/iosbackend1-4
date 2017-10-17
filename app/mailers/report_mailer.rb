@@ -1,7 +1,7 @@
 class ReportMailer < ApplicationMailer
   default from: "test@R8.com"
 
-  def messaage subject, text
+  def report subject, text
  #   mg_client = Mailgun::Client.new 'key-cf696ec28d426e53abaf0a3653ce7dea' 
 
  #   message_params = {from: 'testuset@gmail.com',
