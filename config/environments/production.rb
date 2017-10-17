@@ -53,11 +53,11 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "backend_iOS_API_#{Rails.env}"
  
-  config.action_mailer.delivery_method = :mailgun
-  config.action_mailer.mailgun_settings = {
-    api_key: 'key-cf696ec28d426e53abaf0a3653ce7dea',
-    domain: 'sandbox6c8063d955234a3a8d59ebe240367df1.mailgun.org'
-  }
+  #config.action_mailer.delivery_method = :mailgun
+  #config.action_mailer.mailgun_settings = {
+  #  api_key: 'key-cf696ec28d426e53abaf0a3653ce7dea',
+  #  domain: 'sandbox6c8063d955234a3a8d59ebe240367df1.mailgun.org'
+  #}
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.

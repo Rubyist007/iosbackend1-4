@@ -18,7 +18,7 @@ class UserController < ApplicationController
 
   def send_mail
     p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    AdministationMailer.messaage.deliver_later
+    AdministationMailer.messaage.deliver
     render json: {data: 'done'}
   end
 
