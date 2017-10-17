@@ -3,5 +3,6 @@ class AdministationMailer < ApplicationMailer
 
   def messaage
     mail(to: "vasargkvasargl@gmail.com", subject: "test")   
+    render json: 'Done'
   end
 end
