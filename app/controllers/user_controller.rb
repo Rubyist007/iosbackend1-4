@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   
- #before_action :authenticate_user!, only: [:index, :show, :news]
+ before_action :authenticate_user!, only: [:index, :show, :news]
 
   def index
     render json: {data: User.all}
