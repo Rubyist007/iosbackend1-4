@@ -10,7 +10,8 @@ class ReportMailer < ApplicationMailer
  #               text: 'test'}
 
 #    mg_client.send_message 'sandbox6c8063d955234a3a8d59ebe240367df1.mailgun.org', message_params
-    mail from: "test@R8.com", to: "vasargkvasargl@gmail.com", subject: "#{subject}", text: "#{text}" 
+    @text = text
+    mail from: "test@R8.com", to: "vasargkvasargl@gmail.com", subject: "#{subject}" 
     #render json: 'Done'
   end
 end
