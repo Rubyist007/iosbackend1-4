@@ -16,10 +16,9 @@ class UserController < ApplicationController
     render json: "Thank for confirm email!"
   end
 
-  def send_mail
-    p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    AdministationMailer.messaage.deliver
-    render json: {data: 'done'}
+  def report
+    ReportMailer.messaage(params[:subject], params[:text]).deliver
+    render json: {data: 'Done'}
   end
 
   def feed
