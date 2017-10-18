@@ -60,12 +60,12 @@ Restaurant.all.each do |restaurant|
                              "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
                              "type_dish": "pizza",
                              "price": 20)
-    dish.evaluation.create(
-          "user_id": 1,
-          "restaurant_id": restaurant.id,
-          "evaluation": 5,
-          "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
-        )
+    #dish.evaluation.create(
+    #      "user_id": 1,
+    #      "restaurant_id": restaurant.id,
+    #      "evaluation": 5,
+    #      "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
+    #    )
 
   end
 end
