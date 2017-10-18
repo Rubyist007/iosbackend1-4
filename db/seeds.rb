@@ -23,6 +23,8 @@ end
 User.create( 
     "email": "admin@gmail.com",
     "password": "123456789test",
+    "first_name": "admin_user",
+    "last_name": "admin_user",
     "latitude": "50.619808",
     "longitude": "26.249667",
     "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
@@ -60,13 +62,13 @@ Restaurant.all.each do |restaurant|
                              "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
                              "type_dish": "pizza",
                              "price": 20)
-    #dish.evaluation.create(
-    #      "user_id": 1,
-    #      "restaurant_id": restaurant.id,
-    #      "evaluation": 5,
-    #      "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
-    #    )
-
+    dish.evaluation.create(
+          "user_id": 1,
+          "restaurant_id": restaurant.id,
+          "evaluation": 5,
+          "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
+          "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
+        )
   end
 end
 
