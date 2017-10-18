@@ -6,6 +6,15 @@ class ApplicationController < ActionController::API
     true if current_user.admin == true
   end
 
+  def authenticate!
+    if current_user != nil
+      return true
+    else
+      render json: { status: 422, errors: ["You need to sign in or sign up before continuing"] }, status: 422
+      false
+    end
+  end
+
   protected
 
     def configure_permitted_parameters

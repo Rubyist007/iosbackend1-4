@@ -1,7 +1,7 @@
 Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'user', controllers: {registrations: 'override_device_controller/registrations'}, skip: [:omniauth, :omniauth_callbacks]
+  mount_devise_token_auth_for 'User', at: 'user', controllers: {registrations: 'override_device_controller/registrations', sessions: 'override_device_controller/sessions' }, skip: [:omniauth, :omniauth_callbacks]
 
   concern :dish_show do
     resources :dish, only: [:show, :update]

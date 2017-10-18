@@ -1,7 +1,7 @@
 class RestaurantController < ApplicationController
 
  before_action :current_user_admin?, only: [:create, :update]
- before_action :authenticate_user!, expect: [:create, :update]
+ before_action :authenticate!, expect: [:create, :update]
 
   def index
     render json: {data: Restaurant.all.first(10)}
