@@ -33,8 +33,8 @@ User.create(
 5.times do |n|
   if n < 2
     Restaurant.create(
-      "title": "Very good restaurant #{n}",
-      "description": "Description good restaurant #{n}" * 7,
+      "title": "Restaurant #{n}",
+      "description": "Description restaurant #{n}" * 7,
       "latitude": "41.318641",
       "longitude": "-72.933905",
       "photos": [open(Rails.root + "app/assets/images/restaurant-facade.jpg")],
@@ -45,8 +45,8 @@ User.create(
     )
   else
     Restaurant.create(
-      "title": "Very good restaurant #{n}",
-      "description": "Description good restaurant #{n}" * 7, 
+      "title": "Restaurant #{n}",
+      "description": "Description restaurant #{n}" * 7, 
       "latitude": "50.631738",
       "longitude": "26.273297",
       )
