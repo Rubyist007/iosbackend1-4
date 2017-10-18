@@ -37,7 +37,7 @@ User.create(
       "description": "Description good restaurant #{n}" * 7,
       "latitude": "41.318641",
       "longitude": "-72.933905",
-      #"photos": open(Rails.root + "app/assets/images/restaurant-facade.jpg"),
+      "photos": [open(Rails.root + "app/assets/images/restaurant-facade.jpg")],
       "number_of_ratings": "60",
       "sum_ratings": "300",
       "average_ratings": "5",
