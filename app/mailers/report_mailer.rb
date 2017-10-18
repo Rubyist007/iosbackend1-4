@@ -1,7 +1,7 @@
 class ReportMailer < ApplicationMailer
   default from: "test@R8.com"
 
-  def report subject, text
+  def report subject, text, user
  #   mg_client = Mailgun::Client.new 'key-cf696ec28d426e53abaf0a3653ce7dea' 
 
  #   message_params = {from: 'testuset@gmail.com',
@@ -10,8 +10,7 @@ class ReportMailer < ApplicationMailer
  #               text: 'test'}
 
 #    mg_client.send_message 'sandbox6c8063d955234a3a8d59ebe240367df1.mailgun.org', message_params
-    @text = text
-    mail from: "test@R8.com", to: "vasargkvasargl@gmail.com", subject: "#{subject}" 
+    mail from: "#{user.email}", to: "sg.maximO1@gmail.com", subject: "#{subject}", text: "#{text}" 
     #render json: 'Done'
   end
 end

@@ -17,7 +17,10 @@ class UserController < ApplicationController
   end
 
   def report
-    ReportMailer.report(params[:subject], params[:text]).deliver
+    return render json: {status: 422, errors: "You must provide subject"} if params[:subject] == nil
+    return render json: {status: 422, errors: "You must provide text"} if params[:text] == nil
+
+    ReportMailer.report(params[:subject], params[:text], currnet_user).deliver
     render json: {data: 'Done'}
   end
 
