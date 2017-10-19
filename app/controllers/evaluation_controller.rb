@@ -6,37 +6,47 @@ class EvaluationController < ApplicationController
     render json: Evaluation.all
   end
 
-  def create        
-    dish = Dish.find(evaluation_params[:dish_id])
+  def create
 
-    params = evaluation_params.merge ({ restaurant_id: dish.restaurant_id, user_id: current_user.id })
-
-    evaluation = current_user.evaluation.create(params)
-    
-    dish.evaluation << evaluation
-
-    update_rating_dish dish, evaluation_params[:evaluation]
-    update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
-    update_statistics_user current_user, evaluation_params[:evaluation]
+    begin
+      dish = Dish.find(evaluation_params[:dish_id])
+      params = evaluation_params.merge ({ restaurant_id: dish.restaurant_id, user_id: current_user.id })
+      evaluation = current_user.evaluation.create(params)
+      dish.evaluation << evaluation
       
-    render json: {data: evaluation}
+      update_rating_dish dish, evaluation_params[:evaluation]
+      update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
+      update_statistics_user current_user, evaluation_params[:evaluation]
+      
+      render json: {data: evaluation}
+    rescue ActiveRecord::RecordNotUnique
+      evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
+      update evaluation_id, evaluation_params[:evaluation]
+      #redirect_to action: ":update, id: evaluation_id#, evaluation: {dish_id: dish.id, evaluation: [arams}
+    end
+
   end
 
   def show
     render json: {data: Evaluation.where(user_id: params[:id])}
   end
 
-  def update
-    e = Evaluation.find(params[:id])
+  def update id, evaluation
+    e = Evaluation.find(params[:id] || id)[0]
+    p e 
     if current_user.id == e.user_id
-      e.update_attribute(:evaluation, evaluation_params[:evaluation])
+      e.update_attribute(:evaluation, evaluation)
+    else
+      raise "ERROR ACHTUNG!!!!!"
     end
 
-    dish = Dish.find(evaluation_params[:id])
+    dish = Dish.find(e.dish_id)
 
-    update_rating_dish dish, evaluation_params[:evaluation]
-    update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
-    update_statistics_user current_user, evaluation_params[:evaluation]
+    update_rating_dish dish, evaluation
+    update_rating_restaurant dish.restaurant_id, evaluation
+    update_statistics_user current_user, evaluation
+
+    render json: {data: e}
   end
 
   def evaluation_user
