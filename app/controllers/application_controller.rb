@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :configure_permitted_parameters, if: :devise_controller?
-  after_action :show_header
+  after_action :no_store!
 
   def current_user_admin?
     true if current_user.admin == true
@@ -28,11 +28,8 @@ class ApplicationController < ActionController::API
                                                                 :number_phone])
     end
 
-    def show_header
-    p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    p request.headers['access-token'] 
-    p "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
+    def no_store!
+      response.headers["Cache-Control"] = "no-store"
     end
 end
 
