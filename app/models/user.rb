@@ -34,6 +34,22 @@ class User < ActiveRecord::Base
 
   mount_base64_uploader :avatar, AvatarUploader
 
+  def my_evaluations
+    result = []
+
+    evaluations = self.evaluation
+    
+    evaluations.each do |evaluation|
+      e = evaluation
+      d = Dish.find(evaluation.dish_id)
+      r = Restaurant.find(evaluation.restaurant_id)
+      
+      result << [e, d, r, self]
+    end
+
+    result
+  end
+
   def feed restaurant_class, distance, time, coordinate
     #evaluation = Evaluation.from_users_followed_by(self, time)
     #evaluation_dish = Dish.find(evaluation.map { |e| e.dish_id })
@@ -62,16 +78,17 @@ class User < ActiveRecord::Base
           #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
           #evaluation << d.evaluation
           evaluation << d.evaluation.where("updated_at >= :time", 
-          time: time).limit(1).order("updated_at DESC")
+          time: time).limit(1).order("updated_at DESC") || next
           #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-          #p d.evaluation
+          p d.evaluation
         end
 
-        
+      return "Feed empty" if evaluation.blank? 
+
       evaluation.each do |e|
         #p e
         #p e[0].user_id
-        #p e[0].restaurant_id
+        #e[0].restaurant_id
         r = restaurant_class.find(e[0].restaurant_id)
         p dishes[0].id
         p dishes[1].id

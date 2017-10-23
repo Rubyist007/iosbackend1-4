@@ -21,15 +21,23 @@ class UserController < ApplicationController
     return render json: {status: 422, errors: "You must provide text"} if params[:text] == nil
 
     ReportMailer.report(params[:subject], params[:text], currnet_user).deliver
-    render json: {data: 'Done'}
+    render json: { data: 'Done' }
   end
 
   def feed
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
-    render json: {data: current_user.feed(Restaurant, 
-                                          request.headers["distance"], 
-                                        ((request.headers["count"].to_i).send(request.headers["time"]).ago|| 1.month.ago),
-                                         [current_user.latitude, current_user.longitude])}
+    #if request.headers["time"] != nil && request.headers["count"] != nil
+    #  render json: {data: current_user.feed(Restaurant, 
+    #                                        request.headers["distance"], 
+    #                                      ((request.headers["count"].to_i).send(request.headers["time"]).ago),
+    #                                       [current_user.latitude, current_user.longitude])}
+    #else
+      render json: {data: current_user.feed(Restaurant, 
+                                            request.headers["distance"], 
+                                            3.month.ago,
+                                           [current_user.latitude, current_user.longitude])}
+
+    #end
   end
 end
 

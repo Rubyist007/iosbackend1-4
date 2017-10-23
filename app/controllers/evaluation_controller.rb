@@ -3,7 +3,7 @@ class EvaluationController < ApplicationController
   before_action :authenticate!
     
   def index
-    render json: Evaluation.all
+    render json: { data: current_user.my_evaluations }
   end
 
   def create
