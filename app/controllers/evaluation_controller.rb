@@ -27,7 +27,7 @@ class EvaluationController < ApplicationController
 
   end
 
-  def show
+  def my
     render json: {data: Evaluation.where(user_id: params[:id])}
   end
 

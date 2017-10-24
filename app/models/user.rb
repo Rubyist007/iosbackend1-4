@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
       d = Dish.find(evaluation.dish_id)
       r = Restaurant.find(evaluation.restaurant_id)
       
-      result << [e, d, r, self]
+      result << [e, r, d]
     end
 
     result

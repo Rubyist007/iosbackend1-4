@@ -19,7 +19,11 @@ Rails.application.routes.draw do
 
   concerns :dish_show
 
-  resources :evaluation, only: [:create, :show, :index, :update] 
+  resources :evaluation, only: [:create, :show, :update] do
+    collection do 
+      get "my"
+    end
+  end
 
   resources :user, only: [:show, :index] do
     collection do 
