@@ -2,7 +2,7 @@ class EvaluationController < ApplicationController
 
   before_action :authenticate!
     
-  def index
+  def my
     render json: { data: current_user.my_evaluations }
   end
 
@@ -27,7 +27,7 @@ class EvaluationController < ApplicationController
 
   end
 
-  def my
+  def show
     render json: {data: Evaluation.where(user_id: params[:id])}
   end
 
