@@ -13,4 +13,21 @@ class Evaluation < ApplicationRecord
           user_id: user.id,time: time_ago).limit(20).order("updated_at DESC")
    
   end
+
+  def self.user_evaluations user
+    result = []
+
+    evaluations = user.evaluation
+    
+    evaluations.each do |evaluation|
+      e = evaluation
+      d = Dish.find(evaluation.dish_id)
+      r = Restaurant.find(evaluation.restaurant_id)
+      
+      result << [e, r, d]
+    end
+
+    result
+  end
+
 end
