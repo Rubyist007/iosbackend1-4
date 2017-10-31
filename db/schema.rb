@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20170906101115) do
     t.integer "dish_id"
     t.integer "restaurant_id"
     t.float "evaluation"
-    t.string "photo", default: [], array: true
+    t.string "photo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "dish_id"], name: "index_evaluations_on_user_id_and_dish_id", unique: true
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20170906101115) do
     t.string "city"
     t.string "state"
     t.string "g_id"
+    t.integer "place_Contry"
+    t.integer "place_City"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

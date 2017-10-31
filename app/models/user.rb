@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   def my_evaluations
     result = []
 
-    evaluations = self.evaluation
+    evaluations = self.evaluation.order('updated_at DESC')
     
     evaluations.each do |evaluation|
       e = evaluation

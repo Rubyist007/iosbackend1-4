@@ -17,7 +17,7 @@ class Evaluation < ApplicationRecord
   def self.user_evaluations user
     result = []
 
-    evaluations = user.evaluation
+    evaluations = user.evaluation.order('updated_at DESC')
     
     evaluations.each do |evaluation|
       e = evaluation

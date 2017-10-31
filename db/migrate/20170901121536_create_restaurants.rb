@@ -15,6 +15,9 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
       t.string :city
       t.string :state
       t.string :g_id
+      t.integer :place_Contry
+      t.integer :place_City
+
       t.timestamps
     end
   end
