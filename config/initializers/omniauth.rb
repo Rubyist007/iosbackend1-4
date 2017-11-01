@@ -1,3 +1,4 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :instagram, '2a15a470a8974ca6ae0edc2eb1e4c1e4', '1bd286ba923b4f599588fc89be2cd59b'
+  provider :instagram, '1e595466ab8a4671a4210d974b5008bf', '14eed34d8a9244338c6fb85d308e0be5'
 end
+
