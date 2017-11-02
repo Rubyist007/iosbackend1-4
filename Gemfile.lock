@@ -213,6 +213,7 @@ DEPENDENCIES
   omniauth
   omniauth-google-oauth2
   omniauth-instagram
+  omniauth-oauth2
   pg
   puma (~> 3.7)
   rails (~> 5.1.3)
