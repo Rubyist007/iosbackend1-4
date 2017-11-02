@@ -23,7 +23,7 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
     p redirect_route
     p '__________________________________________'
 
-    redirect_to redirect_route
+    redirect_to redirect_route	
   end
 
   def omniauth_success
@@ -50,7 +50,8 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
     #new_auth_header = @resource.create_new_auth_token
     response.headers.merge!(auth_header)
 
-    render json: @resource
+    #render json: @resource
+    redirect_to 'r8ProdUrl://'
   end
 
 
