@@ -53,20 +53,8 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
     response.headers.merge!(auth_header)
     #response.headers.merge!({'Location' => '/'})
 
-    render json: @resource, status: 200
+    render json: @resource, status: 303
     #redirect_to 'r8ProdUrl://'
-  end
-
-  def create_auth_params
-    @auth_params = {
-      auth_token:     @token,
-      client:    @client_id,
-      uid:       @resource.uid,
-      expiry:    @expiry,
-      config:    @config
-    }
-    @auth_params.merge!(oauth_registration: true) if @oauth_registration
-    @auth_params
   end
 
 
