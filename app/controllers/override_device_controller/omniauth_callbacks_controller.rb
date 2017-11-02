@@ -15,14 +15,13 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
     session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
     session['dta.omniauth.params'] = request.env['omniauth.params']
 
-    p '__________________________________________'
-    p request.env['omniauth.params']
-    p '__________________________________________'
-    p request.env['omniauth.auth']
-    p '__________________________________________'
-    p redirect_route
-    p '__________________________________________'
-
+    #p '__________________________________________'
+    #p request.env['omniauth.params']
+    #p '__________________________________________'
+    #p request.env['omniauth.auth']
+    #p '__________________________________________'
+    #p redirect_route
+    #p '__________________________________________'
 
     redirect_to redirect_route	
   end
