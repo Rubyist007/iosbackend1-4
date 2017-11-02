@@ -49,9 +49,9 @@ gem 'devise_token_auth'
 
 gem 'omniauth'
 gem 'omniauth-oauth2'
-gem 'omniauth-google-oauth2' # skip_jwt issue
-# Could not find a valid mapping for path "/omniauth/google_oauth2/callback"
+gem 'omniauth-google-oauth2'
 gem 'omniauth-instagram'
+gem 'omniauth-twitter'
 gem 'rspec-rails'
 gem 'pg'
 gem 'geocoder'
