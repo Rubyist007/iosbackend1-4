@@ -49,6 +49,7 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
 
     #new_auth_header = @resource.create_new_auth_token
     response.headers.merge!(auth_header)
+    #response.headers.merge!({'Location' => 'google.com'})
 
     #render json: @resource
     redirect_to 'r8ProdUrl://'
