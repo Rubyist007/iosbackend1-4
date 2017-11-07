@@ -1,6 +1,8 @@
 class UserController < ApplicationController
   
  before_action :authenticate_user!, only: [:index, :show, :news]
+ before_action :current_user_admin?, only: [:ban]
+
 
   def index
     render json: {data: User.all}
