@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
                                    class_name:  "Relationship",
                                    dependent:   :destroy
 
-  has_many :rating_restaurant
+  has_many :reports
 
   mount_base64_uploader :avatar, AvatarUploader
 

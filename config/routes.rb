@@ -20,17 +20,18 @@ Rails.application.routes.draw do
 
   concerns :dish_show
 
-  resources :evaluation, only: [:create, :show, :update] do
+  resources :evaluation, only: [:create, :show, :update, :destroy] do
     get "my", on: :collection
     get "user", on: :member
   end
 
-  resources :user, only: [:show, :index] do
+  resources :user, only: [:show, :index, :update] do
     collection do 
       get 'feed'
       get 'thank'
-      post 'report'
     end
   end
+
+  resources :report, only: [:show, :create, :index]
   #resources :relationship, only: [:create, :show, :destroy]
 end

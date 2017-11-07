@@ -16,28 +16,17 @@ class UserController < ApplicationController
     render json: "Thank for confirm email!"
   end
 
-  def report
-    return render json: {status: 422, errors: "You must provide subject"} if params[:subject] == nil
-    return render json: {status: 422, errors: "You must provide text"} if params[:text] == nil
-
-    ReportMailer.report(params[:subject], params[:text], currnet_user).deliver
-    render json: { data: 'Done' }
+  def update
+    #update user 
   end
 
   def feed
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
-    #if request.headers["time"] != nil && request.headers["count"] != nil
-    #  render json: {data: current_user.feed(Restaurant, 
-    #                                        request.headers["distance"], 
-    #                                      ((request.headers["count"].to_i).send(request.headers["time"]).ago),
-    #                                       [current_user.latitude, current_user.longitude])}
-    #else
-      render json: {data: current_user.feed(Restaurant, 
+   
+    render json: {data: current_user.feed(Restaurant, 
                                             request.headers["distance"], 
                                             3.month.ago,
                                            [current_user.latitude, current_user.longitude])}
-
-    #end
   end
 end
 

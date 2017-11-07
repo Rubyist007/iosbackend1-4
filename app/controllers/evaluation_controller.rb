@@ -1,6 +1,8 @@
 class EvaluationController < ApplicationController
 
-  before_action :authenticate!
+  before_action :authenticate!, expect: [:update, :destroy]
+  before_action :current_user_admin? , only: [:update, :destroy]
+
     
   def my
     render json: { data: current_user.my_evaluations }
@@ -21,7 +23,7 @@ class EvaluationController < ApplicationController
       render json: {data: evaluation}
     rescue ActiveRecord::RecordNotUnique
       evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
-      update evaluation_id, evaluation_params[:evaluation]
+      update_from_user evaluation_id, evaluation_params[:evaluation]
       #redirect_to action: ":update, id: evaluation_id#, evaluation: {dish_id: dish.id, evaluation: [arams}
     end
 
@@ -35,13 +37,21 @@ class EvaluationController < ApplicationController
     render json: { data: Evaluation.where(user_id: params[:id]) }
   end
 
-  def update id, evaluation
-    e = Evaluation.find(params[:id] || id)[0]
+  def update
+    evaluation = Evaluation.find(params[:id])
+    evaluation.update_attributes(evaluation: evaluation_params[:evaluation],
+                                 photo: evaluation_params[:photo])
+
+    render json: { data: evaluation }
+  end
+
+  def update_from_user id, evaluation
+    e = Evaluation.find(id)[0]
     p e 
-    if current_user.id == e.user_id
+    if current_user.id == e.user_id || current_user.admin == true
       e.update_attribute(:evaluation, evaluation)
     else
-      raise "ERROR ACHTUNG!!!!!"
+      return render json: { errors: ["You can't change this evaluation"] }
     end
 
     dish = Dish.find(e.dish_id)
@@ -55,6 +65,17 @@ class EvaluationController < ApplicationController
 
   def evaluation_user
     render json: Evaluation.where(user_id: params[:id])
+  end
+
+  def destroy
+    evaluation = Evaluation.find(params[:id])
+    evaluation.destroy
+    
+    if evaluation.destroyed?
+      render json: { data: "Record destroyed"}, status: 200
+    else
+      render json: { data: [errors: 'Something wrong, record not destroyed'] }, status: 400
+    end
   end
 
   private 

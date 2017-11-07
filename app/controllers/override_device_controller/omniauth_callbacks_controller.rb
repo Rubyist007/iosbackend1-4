@@ -1,6 +1,5 @@
 class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
 
-
   def redirect_callbacks
     # derive target redirect route from 'resource_class' param, which was set
     # before authentication.
@@ -43,34 +42,22 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
 
     @resource.save!
 
-    p auth_header
     auth_header.stringify_keys!
-    auth_header['Location'] = 'r8ProdUrl://'
-    p auth_header
 
-
-    #new_auth_header = @resource.create_new_auth_token
     response.headers.merge!(auth_header)
-    #response.headers.merge!({'Location' => '/'})
 
     render json: @resource, status: 200
-    #redirect_to 'r8ProdUrl://'
   end
 
   def create_auth_params
     @auth_params = {
-      auth_token:     @token,
-      client:    @client_id,
-      uid:       @resource.uid,
-      expiry:    @expiry,
-      config:    @config
+      access_token: @token,
+      client:  @client_id,
+      uid:        @resource.uid,
+      expiry:     @expiry,
+      config:     @config
     }
     @auth_params.merge!(oauth_registration: true) if @oauth_registration
     @auth_params
-  end
-
-
-  def send_resource resource
-
   end
 end

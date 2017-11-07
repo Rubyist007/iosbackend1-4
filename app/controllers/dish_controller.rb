@@ -6,28 +6,33 @@ class DishController < ApplicationController
   def create
     dish = Restaurant.find(params[:restaurant_id]).dishes.create(dish_params)
     if dish.save
-      render json: {data: dish}
+      render json: { data: dish }
     else
-      render json: {status: 422, errors: dish.errors.full_messages}, status: 422
+      render json: { status: 422, errors: dish.errors.full_messages }, status: 422
     end
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, errors: "Couldn't find Dish with 'id'=#{params[:restaurant_id]}"}, status: 404
+    render json: { status: 404, errors: "Couldn't find Dish with 'id'=#{params[:restaurant_id]}" }, status: 404
   end
 
   def index
-    render json: {data: Restaurant.find(params[:restaurant_id]).dishes}
+    render json: { data: Restaurant.find(params[:restaurant_id]).dishes }
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, errors: "Couldn't find Restaurant with 'id'=#{params[:restaurant_id]}"}, status: 404
+    render json: { status: 404, errors: "Couldn't find Restaurant with 'id'=#{params[:restaurant_id]}" }, status: 404
   end
   
   def show
-    render json: {data: Dish.find(params[:id])}
+    render json: { data: Dish.find(params[:id]) }
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, errors: "Couldn't find Dish with 'id'=#{params[:id]}"}, status: 404
+    render json: { status: 404, errors: "Couldn't find Dish with 'id'=#{params[:id]}" }, status: 404
   end
 
   def update
-    Dish.find(params[:id]).update_attributes(dish_params)
+    dish = Dish.find(params[:id]).update_attributes(dish_params)
+    if dish.save
+      render json: { data: dish }
+    else
+      render json: { data: dish.errors }
+    end
   end
 
   private

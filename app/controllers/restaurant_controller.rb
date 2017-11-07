@@ -45,13 +45,13 @@ class RestaurantController < ApplicationController
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: {data: Restaurant.all.where("number_of_ratings >= :limitation 
-                                              AND state = :state
-                                              AND (:city IS NULL OR city = :city)",
-                                              limitation: 50, 
-                                              state: request.headers["state"],
-                                              city: request.headers["city"]).
-                  order(actual_rating: :desc).limit(10)}
+    render json: { data: Restaurant.all.where("number_of_ratings >= :limitation 
+                                               AND state = :state
+                                               AND (:city IS NULL OR city = :city)",
+                                               limitation: 50, 
+                                               state: request.headers["state"],
+                                               city: request.headers["city"]).
+                   order(actual_rating: :desc).limit(10) }
   end
 
   def near

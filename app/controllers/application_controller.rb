@@ -5,7 +5,11 @@ class ApplicationController < ActionController::API
   after_action :no_store
 
   def current_user_admin?
-    true if current_user.admin == true
+    if current_user.admin == true
+      return true
+    else
+      render json: { errors: ['This can do only admin'] }
+    end
   end
 
   def authenticate!
