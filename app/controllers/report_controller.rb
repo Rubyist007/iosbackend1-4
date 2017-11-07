@@ -10,7 +10,7 @@ class ReportController < ApplicationController
     if report.save
       render json: { data: report }
     else
-      render json: { errors: report.errors }
+      render json: { errors: report.errors.full_messages }
     end
   end
 
