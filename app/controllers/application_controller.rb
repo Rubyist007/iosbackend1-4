@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
     if current_user != nil
       return true
     else
-      render json: { status: 422, errors: ["You need to sign in or sign up before continuing"] }, status: 402
+      render json: { status: 402, errors: ["You need to sign in or sign up before continuing"] }, status: 402
       false
     end
   end
