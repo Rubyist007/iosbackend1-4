@@ -23,7 +23,7 @@ class UserController < ApplicationController
   def resend_confirmation
     user = User.where(uid: request.headers["email"])
     p user
-    user.send_confirmation_instructions
+    user.resend_confirmation_instructions
   end
 
   def feed
