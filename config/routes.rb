@@ -1,6 +1,8 @@
 Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'User', at: 'user', controllers: {registrations: 'override_device_controller/registrations', sessions: 'override_device_controller/sessions',
+  omniauth_callbacks: 'override_device_controller/omniauth_callbacks'}
 
   concern :dish_show do
     resources :dish, only: [:show, :update]
@@ -23,7 +25,7 @@ Rails.application.routes.draw do
     get "user", on: :member
   end
 
-  resources :user, only: [:show, :index, :update] do
+  resources :user, path: 'users', only: [:show, :index, :update] do
     collection do 
       get 'feed'
       get 'thank'
@@ -37,8 +39,4 @@ Rails.application.routes.draw do
 
   resources :report, only: [:show, :create, :index]
   #resources :relationship, only: [:create, :show, :destroy]
-
-  mount_devise_token_auth_for 'User', at: 'user', controllers: {registrations: 'override_device_controller/registrations', sessions: 'override_device_controller/sessions',
-  omniauth_callbacks: 'override_device_controller/omniauth_callbacks'}
-
 end
