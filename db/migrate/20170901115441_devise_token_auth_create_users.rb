@@ -48,6 +48,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
       t.float :latitude
       t.float :longitude
       t.boolean :admin, default: false
+      t.string :ban_time, default: 1.day.ago
       ## Tokens
       t.text :tokens
 

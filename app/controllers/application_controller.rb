@@ -21,6 +21,17 @@ class ApplicationController < ActionController::API
     end
   end
   
+  def not_ban_user
+    p Time.now
+    p current_user.ban_time
+    p current_user.ban_time < Time.now
+
+    if current_user.ban_time < Time.now
+      true
+    else
+     render json: { errors: "You are banned until #{Time.parse(current_user.ban_time).strftime("%B %d, %Y")}" }, status: 401
+    end
+  end
   
   protected
 

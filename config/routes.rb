@@ -31,6 +31,10 @@ Rails.application.routes.draw do
       get 'thank'
       post 'resend_confirmation'
     end
+
+    member do 
+      post 'ban'
+    end
   end
 
   resources :report, only: [:show, :create, :index]

@@ -2,6 +2,7 @@ class EvaluationController < ApplicationController
 
   before_action :authenticate!, expect: [:update, :destroy]
   before_action :current_user_admin? , only: [:update, :destroy]
+  before_action :not_ban_user, only: [:create]
 
     
   def my

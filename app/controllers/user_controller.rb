@@ -27,6 +27,14 @@ class UserController < ApplicationController
     user[0].resend_confirmation_instructions
   end
 
+  def ban
+    user = User.find(params[:id])
+    time = params[:count].send(params[:time]).after
+    user.update_attribute(:ban_time, time)
+
+    render json: user
+  end
+
   def feed
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
    
