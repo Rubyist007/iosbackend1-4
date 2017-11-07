@@ -20,6 +20,12 @@ class UserController < ApplicationController
     #update user 
   end
 
+  def resend_confirmation
+    user = User.where(uid: request.headers["email"])
+    p user
+    user.send_confirmation_instructions
+  end
+
   def feed
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
    
