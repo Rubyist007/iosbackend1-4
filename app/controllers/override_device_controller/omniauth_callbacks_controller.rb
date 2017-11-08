@@ -31,7 +31,7 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
     set_token_on_resource
     create_auth_params
 
-    auth_header = @auth_params
+    #auth_header = @auth_params
 
     if resource_class.devise_modules.include?(:confirmable)
       # don't send confirmation email!!!
@@ -42,11 +42,13 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
 
     @resource.save!
 
-    auth_header.stringify_keys!
+    render :json => JSON::parse(@resource.to_json).merge({"access_token" => @token, "client" => @client_id})
+    
+    #auth_header.stringify_keys!
 
-    response.headers.merge!(auth_header)
+    #response.body.merge!(auth_header)
 
-    render json: @resource, status: 200
+    #render json: @resource , status: 200
   end
 
   def create_auth_params
