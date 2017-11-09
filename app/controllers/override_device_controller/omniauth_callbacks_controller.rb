@@ -42,12 +42,13 @@ class OverrideDeviceController::OmniauthCallbacksController < DeviseTokenAuth::O
 
     @resource.save!
 
-    render :json => JSON::parse(@resource.to_json).merge({"access_token" => @token, "client" => @client_id})
+    response.header.merge!({"Location" => "r8prod://"})
+
+    render :json => JSON::parse(@resource.to_json).merge({"access_token" => @token, "client" => @client_id}), status: 301
     
     #auth_header.stringify_keys!
 
-    #response.body.merge!(auth_header)
-
+    
     #render json: @resource , status: 200
   end
 
