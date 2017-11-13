@@ -71,7 +71,7 @@ class EvaluationController < ApplicationController
   def destroy
     evaluation = Evaluation.find(params[:id])
     evaluation.destroy
-    
+
     if evaluation.destroyed?
       render json: { data: "Record destroyed"}, status: 200
     else

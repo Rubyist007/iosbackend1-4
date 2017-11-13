@@ -37,6 +37,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :report, only: [:show, :create, :index]
+  resources :report, only: [:show, :create, :index, :destroy]
   #resources :relationship, only: [:create, :show, :destroy]
 end
