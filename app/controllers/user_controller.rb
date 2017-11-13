@@ -10,7 +10,7 @@ class UserController < ApplicationController
   def show 
     render json: {data: User.find(params[:id])}
   rescue ActiveRecord::RecordNotFound
-    render json: {status: 404, errors: "Couldn't find User with 'id'=#{params[:id]}"}, status: 404
+    render json: {status: 404, errors: ["Couldn't find User with 'id'=#{params[:id]}"]}, status: 404
   end
 
   def thank
@@ -23,9 +23,10 @@ class UserController < ApplicationController
 
   def resend_confirmation
     user = User.where(email: request.headers["email"])
-    p user
-    p user[0]
     user[0].resend_confirmation_instructions
+    render json: {status: 200, data: "Resend success."}
+    rescue NoMethodError
+      render json: {status: 404, errors: ["Couldn't find User with 'email'=#{request.headers["email"]}"]}, status: 404
   end
 
   def ban
