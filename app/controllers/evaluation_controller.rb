@@ -116,7 +116,7 @@ class EvaluationController < ApplicationController
                                                         restaurant.sum_ratings / restaurant.number_of_ratings : 
                                                         evaluation),
                                    :actual_rating => ((((restaurant.number_of_ratings + 1).to_f / ((restaurant.number_of_ratings + 1) + 50)) * (restaurant.number_of_ratings != 0 ? restaurant.sum_ratings / restaurant.number_of_ratings : evaluation)) + ((50.0 / ((restaurant.number_of_ratings + 1) + 50) * 3.5 ))),
-                                   :place_Contry => ((top_hundred_place + 1) if top_hundred_place.is_a? Numeric),
+                                   :place_Country => ((top_hundred_place + 1) if top_hundred_place.is_a? Numeric),
                                    :place_City => ((top_city_place + 1) if top_city_place.is_a? Numeric))
 
     end

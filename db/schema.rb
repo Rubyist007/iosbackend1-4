@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20171107083058) do
     t.string "city"
     t.string "state"
     t.string "g_id"
-    t.integer "place_Contry"
+    t.integer "place_Country"
     t.integer "place_City"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
