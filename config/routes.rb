@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     collection do 
       get 'feed'
       get 'thank'
-      post 'resend_confirmation'
+      get 'resend_confirmation'
     end
 
     member do 
