@@ -39,6 +39,7 @@ class UserController < ApplicationController
 
   def feed
     p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    p current_user
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
    
     render json: {data: current_user.feed(Restaurant, 
