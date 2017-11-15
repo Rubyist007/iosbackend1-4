@@ -5,7 +5,10 @@ class ApplicationController < ActionController::API
   after_action :no_store
 
   def current_user_admin?
-    if current_user.admin == true
+    if current_user == nil
+      render json: { status: 402, errors: ["You need to sign in or sign up before continuing"] }, status: 402
+
+    elsif current_user.admin == true
       return true
     else
       render json: { errors: ['This can do only admin'] }
