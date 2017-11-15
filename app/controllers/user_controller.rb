@@ -1,6 +1,6 @@
 class UserController < ApplicationController
   
- before_action :authenticate_user!, only: [:index, :show, :news]
+ before_action :authenticate_user!, only: [:index, :show, :feed]
  before_action :current_user_admin?, only: [:ban]
 
   def index
@@ -15,10 +15,6 @@ class UserController < ApplicationController
 
   def thank
     render json: "Thank for confirm email!"
-  end
-
-  def update
-    #update user 
   end
 
   def resend_confirmation
