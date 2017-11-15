@@ -16,7 +16,7 @@ class Restaurant < ApplicationRecord
 
   validates :title, length: { maximum: 50 }
 
-  validates :description, length: { minimum: 100, maximum: 500 }
+  validates :description, length: { minimum: 10, maximum: 500 }
 
   validate :validate_latitude
   validate :validate_longitude

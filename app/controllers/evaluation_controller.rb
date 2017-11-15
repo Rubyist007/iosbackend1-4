@@ -71,12 +71,10 @@ class EvaluationController < ApplicationController
   def destroy
     evaluation = Evaluation.find(params[:id])
     evaluation.destroy
+    render json: { data: "Record destroyed"}, status: 200
 
-    if evaluation.destroyed?
-      render json: { data: "Record destroyed"}, status: 200
-    else
-      render json: { data: [errors: 'Something wrong, record not destroyed'] }, status: 400
-    end
+    rescue ActiveRecord::RecordNotFound
+      render json: { status: 404, errors: ["Couldn't find Evaluation with 'id'=#{params[:id]}"] }, status: 404
   end
 
   private 
