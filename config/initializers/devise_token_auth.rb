@@ -34,7 +34,7 @@ DeviseTokenAuth.setup do |config|
   # It depends on fields like email, provider and uid.
   # config.default_callbacks = true
 
-  config.default_confirm_success_url = 'https://iosbackend1-3.herokuapp.com/user/thank'
+  config.default_confirm_success_url = 'https://iosbackend1-4.herokuapp.com/user/thank'
 
   # Makes it possible to change the headers names
   # config.headers_names = {:'access-token' => 'access-token',
