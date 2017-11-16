@@ -29,7 +29,7 @@ class RestaurantController < ApplicationController
   end
 
   def all_city
-    render json: Restaurant.distinct.pluck(:city)
+    render json: { data: Restaurant.distinct.pluck(:city, :state) }
   end
 
   def all_restaurant_in_city
