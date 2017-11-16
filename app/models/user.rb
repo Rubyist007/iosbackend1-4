@@ -74,7 +74,8 @@ class User < ActiveRecord::Base
 
       near_restaurant.each do |r|
         p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-        p r.dishes.count
+        next if r.dishes.count == 0
+        #p r.dishes.count
         p offset = rand(r.dishes.count)
         p dishes << r.dishes.offset(offset).first
         p '**************************************************'
