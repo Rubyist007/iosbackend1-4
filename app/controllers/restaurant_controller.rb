@@ -1,10 +1,10 @@
 class RestaurantController < ApplicationController
 
- before_action :current_user_admin?, only: [:create, :update]
- before_action :authenticate!, expect: [:create, :update]
+  before_action :current_user_admin?, only: [:create, :update]
+  before_action :authenticate!, expect: [:create, :update]
 
   def index
-    render json: {data: Restaurant.all.first(10)}
+    render json: { data: Restaurant.all }
   end
 
   def create
@@ -28,6 +28,9 @@ class RestaurantController < ApplicationController
     render json: {data: r}
   end
 
+  def all_city
+    render json: Restaurant.distinct.pluck(:city)
+  end
 
   def all_restaurant_in_city
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
