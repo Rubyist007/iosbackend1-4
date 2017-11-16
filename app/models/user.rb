@@ -81,7 +81,9 @@ class User < ActiveRecord::Base
       end
 
       dishes.each do |d|
-          #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          p d
+          p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
           #evaluation << d.evaluation
           evaluation << d.evaluation.where("updated_at >= :time", 
           time: time).limit(1).order("updated_at DESC") || next
