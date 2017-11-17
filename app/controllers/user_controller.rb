@@ -27,7 +27,7 @@ class UserController < ApplicationController
 
   def ban
     user = User.find(params[:id])
-    time = params[:count].send(params[:time]).after
+    time = params[:count].send(:day).after
     user.update_attribute(:ban_time, time)
 
     render json: user
