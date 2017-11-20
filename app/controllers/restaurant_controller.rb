@@ -54,7 +54,7 @@ class RestaurantController < ApplicationController
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: { data: Restauran.where("number_of_ratings >= :limitation 
+    render json: { data: Restaurant.where("number_of_ratings >= :limitation 
                                                AND state = :state
                                                AND (:city IS NULL OR city = :city)",
                                                limitation: 50, 
