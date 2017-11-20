@@ -62,13 +62,15 @@ Restaurant.all.each do |restaurant|
                              "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
                              "type_dish": "pizza",
                              "price": 20)
-    dish.evaluation.create(
+    evaluation = dish.evaluation.create(
           "user_id": 1,
           "restaurant_id": restaurant.id,
           "evaluation": 5,
           "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
           "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
         )
+
+    User.first.evaluation << evaluation
   end
 end
 

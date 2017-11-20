@@ -3,6 +3,7 @@ class CreateReports < ActiveRecord::Migration[5.1]
     create_table :reports do |t|
       t.string :subject
       t.string :text
+      t.integer :evaluation_id
 
       t.belongs_to :user, index: true
 

@@ -29,7 +29,13 @@ class RestaurantController < ApplicationController
   end
 
   def all_city
-    render json: { data: Restaurant.distinct.pluck(:city, :state) }
+    all_city = []
+
+    Restaurant.distinct.pluck(:city, :state).each do |locality|
+      all_city <<  { city: locality[0], state: locality[1] }
+    end
+
+    render json: { data: all_city }
   end
 
   def all_restaurant_in_city
@@ -41,14 +47,14 @@ class RestaurantController < ApplicationController
   end
 
   def top_hundred
-    render json: { data: Restaurant.all.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
+    render json: { data: Restaurant.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
   end
 
   def top_ten_in_city
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: { data: Restaurant.all.where("number_of_ratings >= :limitation 
+    render json: { data: Restauran.where("number_of_ratings >= :limitation 
                                                AND state = :state
                                                AND (:city IS NULL OR city = :city)",
                                                limitation: 50, 

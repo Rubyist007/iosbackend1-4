@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20171107083058) do
   create_table "reports", force: :cascade do |t|
     t.string "subject"
     t.string "text"
+    t.integer "evaluation_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -126,7 +127,7 @@ ActiveRecord::Schema.define(version: 20171107083058) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "admin", default: false
-    t.string "ban_time", default: "2017-11-06 18:00:30.837314"
+    t.string "ban_time", default: "2017-11-19 10:30:42.101222"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

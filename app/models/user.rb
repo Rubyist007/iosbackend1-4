@@ -9,9 +9,9 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :password, :first_name, :last_name, on: :create
 
-  validates_format_of :password, with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,128}\z/, allow_blank: true
   #validates_length_of [:first_name, :last_name], in: 2..30
   #validates_length_of :email, in: 6..72
+  validates_length_of :password, minimum: 7, allow_blank: true
   validates_length_of :number_phone, is: 12, on: :update, allow_blank: true
   validates :latitude, numericality: { only_float: true }, on: :update, allow_blank: true
   validates :longitude, numericality: { only_float: true }, on: :update, allow_blank: true
