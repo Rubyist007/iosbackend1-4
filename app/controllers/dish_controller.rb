@@ -21,7 +21,7 @@ class DishController < ApplicationController
   end
   
   def show
-    render json: { data: Dish.find(params[:id]) }
+    render json: { data: [Dish.find(params[:id])] }
   rescue ActiveRecord::RecordNotFound
     render json: { status: 404, errors: "Couldn't find Dish with 'id'=#{params[:id]}" }, status: 404
   end
