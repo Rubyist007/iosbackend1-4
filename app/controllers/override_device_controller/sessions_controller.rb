@@ -1,5 +1,9 @@
 class OverrideDeviceController::SessionsController < DeviseTokenAuth::SessionsController
 
+  def render_create_success
+    render json: {data: [@resource]}
+  end
+
   def render_create_error_bad_credentials 
     render json: { status: 401, errors: ["Invalid login credentials. Please try again."] }, status: 401
   end
