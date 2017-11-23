@@ -6,7 +6,7 @@ class EvaluationController < ApplicationController
 
     
   def my
-    render json: { data: [current_user.my_evaluations] }
+    render json: { data: current_user.my_evaluations }
   end
 
   def create
@@ -31,11 +31,11 @@ class EvaluationController < ApplicationController
   end
 
   def user
-    render json: { data: [Evaluation.user_evaluations(User.find(params[:id]))] }
+    render json: { data: Evaluation.user_evaluations(User.find(params[:id])) }
   end
 
   def show
-    render json: { data: [Evaluation.where(user_id: params[:id])] }
+    render json: { data: Evaluation.where(user_id: params[:id]) }
   end
 
   def update

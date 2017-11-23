@@ -4,7 +4,7 @@ class UserController < ApplicationController
  before_action :current_user_admin?, only: [:ban]
 
   def index
-    render json: { data: [User.all] }
+    render json: { data: User.all }
   end
 
   def show 
@@ -38,10 +38,10 @@ class UserController < ApplicationController
     p current_user
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
    
-    render json: { data: [current_user.feed(Restaurant, 
+    render json: { data: current_user.feed(Restaurant, 
                                             request.headers["distance"], 
                                             3.month.ago,
-                                           [current_user.latitude, current_user.longitude])] }
+                                           [current_user.latitude, current_user.longitude]) }
   end
 end
 

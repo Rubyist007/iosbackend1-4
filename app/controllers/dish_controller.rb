@@ -15,7 +15,7 @@ class DishController < ApplicationController
   end
 
   def index
-    render json: { data: [Restaurant.find(params[:restaurant_id]).dishes] }
+    render json: { data: Restaurant.find(params[:restaurant_id]).dishes }
   rescue ActiveRecord::RecordNotFound
     render json: { status: 404, errors: "Couldn't find Restaurant with 'id'=#{params[:restaurant_id]}" }, status: 404
   end

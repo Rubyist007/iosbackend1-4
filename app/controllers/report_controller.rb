@@ -2,7 +2,7 @@ class ReportController < ApplicationController
   before_action :authenticate_user!
   
   def index 
-    render json: { data: [Report.all] }
+    render json: { data: Report.all }
   end
 
   def create

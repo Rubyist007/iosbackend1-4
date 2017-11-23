@@ -4,7 +4,7 @@ class RestaurantController < ApplicationController
   before_action :authenticate!, expect: [:create, :update]
 
   def index
-    render json: { data: [Restaurant.all] }
+    render json: { data: Restaurant.all }
   end
 
   def create
@@ -35,38 +35,38 @@ class RestaurantController < ApplicationController
       all_city <<  { city: locality[0], state: locality[1] }
     end
 
-    render json: { data: [all_city] }
+    render json: { data: all_city }
   end
 
   def all_restaurant_in_city
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: { data: [Restaurant.where(city: request.headers["city"], state: request.headers["state"])] }
+    render json: { data: Restaurant.where(city: request.headers["city"], state: request.headers["state"]) }
   end
 
   def top_hundred
-    render json: { data: [Restaurant.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100)] }
+    render json: { data: Restaurant.where("number_of_ratings >= ?", 50).order(actual_rating: :desc).limit(100) }
   end
 
   def top_ten_in_city
     return render json: {status: 422, errors: "You must provide state"} if request.headers["state"] == nil
     return render json: {status: 422, errors: "You must provide city"} if request.headers["city"] == nil
 
-    render json: { data: [Restaurant.where("number_of_ratings >= :limitation 
+    render json: { data: Restaurant.where("number_of_ratings >= :limitation 
                                                AND state = :state
                                                AND (:city IS NULL OR city = :city)",
                                                limitation: 50, 
                                                state: request.headers["state"],
                                                city: request.headers["city"]).
-                   order(actual_rating: :desc).limit(10)] }
+                   order(actual_rating: :desc).limit(10) }
   end
 
   def near
     return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
-    render json: { data: [Restaurant.near([current_user.latitude, 
+    render json: { data: Restaurant.near([current_user.latitude, 
                                          current_user.longitude], 
-                                         request.headers["distance"])] }
+                                         request.headers["distance"]) }
   end
 
   private
