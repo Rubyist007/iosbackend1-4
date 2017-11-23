@@ -6,7 +6,7 @@ class EvaluationController < ApplicationController
 
     
   def my
-    render json: { data: current_user.my_evaluations }
+    render json: { data: [current_user.my_evaluations] }
   end
 
   def create
@@ -21,7 +21,7 @@ class EvaluationController < ApplicationController
       update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
       update_statistics_user current_user, evaluation_params[:evaluation]
       
-      render json: {data: evaluation}
+      render json: {data: [evaluation]}
     rescue ActiveRecord::RecordNotUnique
       evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
       update_from_user evaluation_id, evaluation_params[:evaluation]
@@ -31,11 +31,11 @@ class EvaluationController < ApplicationController
   end
 
   def user
-    render json: { data: Evaluation.user_evaluations(User.find(params[:id])) }
+    render json: { data: [Evaluation.user_evaluations(User.find(params[:id]))] }
   end
 
   def show
-    render json: { data: Evaluation.where(user_id: params[:id]) }
+    render json: { data: [Evaluation.where(user_id: params[:id])] }
   end
 
   def update
@@ -43,7 +43,7 @@ class EvaluationController < ApplicationController
     evaluation.update_attributes(evaluation: evaluation_params[:evaluation],
                                  photo: evaluation_params[:photo])
 
-    render json: { data: evaluation }
+    render json: { data: [evaluation] }
   end
 
   def update_from_user id, evaluation
@@ -61,7 +61,7 @@ class EvaluationController < ApplicationController
     update_rating_restaurant dish.restaurant_id, evaluation
     update_statistics_user current_user, evaluation
 
-    render json: {data: e}
+    render json: { data: [e] }
   end
 
   def evaluation_user
@@ -71,7 +71,7 @@ class EvaluationController < ApplicationController
   def destroy
     evaluation = Evaluation.find(params[:id])
     evaluation.destroy
-    render json: { data: "Record destroyed"}, status: 200
+    render json: { data: ["Record destroyed"] }, status: 200
 
     rescue ActiveRecord::RecordNotFound
       render json: { status: 404, errors: ["Couldn't find Evaluation with 'id'=#{params[:id]}"] }, status: 404
