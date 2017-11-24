@@ -101,8 +101,11 @@ class User < ActiveRecord::Base
       return "Feed empty" if evaluation.blank? 
 
       evaluation.each do |e|
+        p "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{"
+        p evaluation
         p e
         p e[0]
+        p "}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}"
         #e[0].restaurant_id
         r = restaurant_class.find(e.restaurant_id)
         p dishes[0].id
