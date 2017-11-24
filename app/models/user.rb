@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
         #p e
         #p e[0].user_id
         #e[0].restaurant_id
-        r = restaurant_class.find(e[0].restaurant_id)
+        r = restaurant_class.find(e.restaurant_id)
         p dishes[0].id
         p dishes[1].id
         p '-'
