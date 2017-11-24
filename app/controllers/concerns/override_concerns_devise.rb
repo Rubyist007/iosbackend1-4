@@ -1,4 +1,4 @@
-module Devise::Concerns::User
+module Devise::Models::Recoverable
 
   def set_reset_password_token
 raw, enc = '1234567' #Devise.token_generator.generate(self.class, :reset_password_token)
