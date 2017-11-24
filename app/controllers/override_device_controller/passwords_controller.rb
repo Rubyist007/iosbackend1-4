@@ -3,7 +3,7 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
   skip_after_action :update_auth_header, :only => [:create, :edit]
 
   def update
-    @resource = User.where(uid: params[:email])
+    @resource = User.where(uid: params[:email]).first
 
     # make sure account doesn't use oauth2 provider
     unless @resource.provider == 'email'
