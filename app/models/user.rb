@@ -86,8 +86,14 @@ class User < ActiveRecord::Base
           p d
           p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
           #evaluation << d.evaluation
-          evaluation << d.evaluation.where("updated_at >= :time", 
-          time: time).limit(1).order("updated_at DESC") || next
+          
+          ev = d.evaluation.where("updated_at >= :time", time: time).limit(1).order("updated_at DESC")
+
+          if ev 
+            evaluation << ev 
+          else
+            next
+          end
           #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
           p d.evaluation
         end
