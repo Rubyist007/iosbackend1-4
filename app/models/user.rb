@@ -57,15 +57,9 @@ class User < ActiveRecord::Base
   end
 
   def feed restaurant_class, distance, time, coordinate
-    #evaluation = Evaluation.from_users_followed_by(self, time)
-    #evaluation_dish = Dish.find(evaluation.map { |e| e.dish_id })
-    
+        
     if coordinate
-      #restaurant_from_evaluation = restaurant_class.find(evaluation.map { |e| e.restaurant_id })
 
-      #near_restaurant_from_evaluation = []
-      #near_restaurant_id_from_evaluation = []
-      #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
       near_restaurant = Restaurant.near(coordinate, distance)
 
       evaluation = []
@@ -76,8 +70,8 @@ class User < ActiveRecord::Base
         #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
         next if r.dishes.count == 0
         #p r.dishes.count
-        #p offset = rand(r.dishes.count)
-        #p dishes << r.dishes.offset(offset).first
+        offset = rand(r.dishes.count)
+        dishes << r.dishes.offset(offset).first
         #p '**************************************************'
       end
 
@@ -125,47 +119,11 @@ class User < ActiveRecord::Base
         result << [e[0], r, d, u]
       end
 
-      p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
-      p result
-      p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+      #p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+      #p result
+      #p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
 
-      return result
-
-      #restaurant_from_evaluation.each do |r|
-      #  if Geocoder::Calculations.distance_between([self.latitude, self.longitude], [r.latitude, r.longitude]) < distance.to_f
-      #    near_restaurant_from_evaluation << r
-      #    near_restaurant_id_from_evaluation << r.id
-      #  end
-      #end
-    
-      #result = []
-    
-      #evaluation.each do |e|
-      #  next unless near_restaurant_id_from_evaluation.include? e.restaurant_id
-
-      #  r = near_restaurant_from_evaluation.find {|restaura| restaura.id == e.restaurant_id}
-      #  d = evaluation_dish.find { |dish| dish.id == e.dish_id }
-      #  u = self.class.find(e.user_id)
-      #  result << [e, r, d, u]
-      #end
-
-      #good_restaurant = []
-      #near_restaurant_from_evaluation.each do |r|
-      #  if r.actual_rating >= 3.5
-      #    good_restaurant << r
-      #  end
-      #end
-
-      #return [result, good_restaurant]
-    #else
-      #result = []
-      #evaluation.each do |e|
-      #  r = restaurant_class.find(e.restaurant_id)
-      #  d = evaluation_dish.find { |dish| dish.id == e.dish_id }
-      #  u = self.class.find(e.user_id)
-      #  result << [e, r, d, u]
-      #end
-      #return result
+      return result 
     end
   end
 
