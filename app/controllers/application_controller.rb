@@ -47,7 +47,7 @@ class ApplicationController < ActionController::API
                                                                 :avatar, 
                                                                 :number_phone,
                                                                 :password,
-                                                                :password_confirmation])
+                                                                :password_confirmation, :current_password])
     end
 
     def show_header
