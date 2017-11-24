@@ -3,14 +3,6 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
   skip_after_action :update_auth_header, :only => [:create, :edit]
 
   def update
-
-    p "!!!!!!!!!!!!!!!!!!!!!!!!"
-    p params
-    p params[:password]
-    p params[:password_confirmation]
-    #Devise::Encryptor.compare()
-    p "!!!!!!!!!!!!!!!!!!!!!!!!"
-
     # make sure user is authorized
     unless @resource
       return render_update_error_unauthorized
@@ -24,6 +16,11 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     # make sure reset_password_token right
 
     token = Devise.token_generator.digest(User, :reset_password_token, params[:reset_password_token])
+
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
+    p @resource.reset_password_token
+    p token
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
 
     unless token == @resource.reset_password_token
       return render json: { errors: "wrong reset_password_token" }
