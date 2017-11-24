@@ -45,7 +45,8 @@ class ApplicationController < ActionController::API
                                                                 :latitude, 
                                                                 :longitude, 
                                                                 :avatar, 
-                                                                :number_phone])
+                                                                :number_phone,
+                                                                :password])
     end
 
     def show_header
