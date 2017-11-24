@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
           
           ev = d.evaluation.where("updated_at >= :time", time: time).limit(1).order("updated_at DESC")
 
-          if ev 
+          if ev[0]
             evaluation << ev 
           else
             next
