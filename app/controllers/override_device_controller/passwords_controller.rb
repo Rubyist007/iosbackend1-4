@@ -1,5 +1,5 @@
 class OverrideDeviceController::PasswordsController < DeviseTokenAuth::PasswordsController
-  before_action :set_user_by_token, :only => [:update]
+  before_action :set_user_by_token, :only => []
   skip_after_action :update_auth_header, :only => [:create, :edit]
 
   def update
