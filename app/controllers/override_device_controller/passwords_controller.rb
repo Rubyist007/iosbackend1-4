@@ -19,6 +19,11 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     end
 
     # ensure that password params were sent
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
+    p params
+    p params[:password]
+    p params[:password_confirmation]
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
     unless params[:password] && params[:password_confirmation]
       return render_update_error_missing_password
     end
