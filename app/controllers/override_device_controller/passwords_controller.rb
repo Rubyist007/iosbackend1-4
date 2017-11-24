@@ -34,7 +34,7 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     #  return render_update_error_missing_password
     #end
 
-    if @resource.send("update_with_password", params[:password])
+    if @resource.update_with_password(curent_password: '123456789test', password: params[:password], password_confirmation: params[:password])
       @resource.allow_password_change = false if recoverable_enabled?
       @resource.save!
       yield @resource if block_given?
