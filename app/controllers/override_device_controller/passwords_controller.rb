@@ -24,9 +24,9 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     
 
     # make sure reset_password_token right
-    unless params[:reset_password_token] == @resource.reset_password_token
-      return render json: "wrong reset_password_token"
-    end
+    #unless params[:reset_password_token] == @resource.reset_password_token
+    #  return render json: "wrong reset_password_token"
+    #end
 
     # ensure that password params were sent
     
@@ -34,7 +34,7 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     #  return render_update_error_missing_password
     #end
 
-    if @resource.send(resource_update_method, password_resource_params)
+    if @resource.send(resource_update_method, params[:password])
       @resource.allow_password_change = false if recoverable_enabled?
       @resource.save!
       yield @resource if block_given?
