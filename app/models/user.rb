@@ -125,7 +125,11 @@ class User < ActiveRecord::Base
         result << [e[0], r, d, u]
       end
 
-      result
+      p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+      p result
+      p '&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+
+      return result
 
       #restaurant_from_evaluation.each do |r|
       #  if Geocoder::Calculations.distance_between([self.latitude, self.longitude], [r.latitude, r.longitude]) < distance.to_f
