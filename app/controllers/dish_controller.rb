@@ -28,7 +28,7 @@ class DishController < ApplicationController
 
   def update
     dish = Dish.find(params[:id]).update_attributes(dish_params)
-    if dish.save
+    if dish
       render json: { data: [dish] }
     else
       render json: { status: 422, errors: dish.errors.full_messages }, status: 422
