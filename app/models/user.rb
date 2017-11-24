@@ -73,18 +73,18 @@ class User < ActiveRecord::Base
       result = []
 
       near_restaurant.each do |r|
-        p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+        #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
         next if r.dishes.count == 0
         #p r.dishes.count
-        p offset = rand(r.dishes.count)
-        p dishes << r.dishes.offset(offset).first
-        p '**************************************************'
+        #p offset = rand(r.dishes.count)
+        #p dishes << r.dishes.offset(offset).first
+        #p '**************************************************'
       end
 
       dishes.each do |d|
-          p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-          p d
-          p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+          #p d
+          #p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
           #evaluation << d.evaluation
           
           ev = d.evaluation.where("updated_at >= :time", time: time).limit(1).order("updated_at DESC")
@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
             next
           end
           #p '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-          p d.evaluation
+          #p d.evaluation
         end
 
       return "Feed empty" if evaluation.blank? 
@@ -113,11 +113,11 @@ class User < ActiveRecord::Base
         p "}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}"
         #e[0].restaurant_id
         r = restaurant_class.find(e.restaurant_id)
-        p dishes[0].id
-        p dishes[1].id
-        p '-'
-        p e[0].dish_id
-        p e[0]
+        #p dishes[0].id
+        #p dishes[1].id
+        #p '-'
+        #p e[0].dish_id
+        #p e[0]
 
         d = dishes.find { |dish| dish.id == e[0].dish_id }
         #d = dishes.find { |dish| p dish  }
