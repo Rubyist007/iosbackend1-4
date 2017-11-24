@@ -20,7 +20,7 @@ class UserController < ApplicationController
   def resend_confirmation
     user = User.where(email: request.headers["email"])
     user[0].resend_confirmation_instructions
-    render json: { status: 200, data: ["Resend success."] }
+    render json: { status: 200, data: [{ status: "Resend success." }] }
     rescue NoMethodError
       render json: { status: 404, errors: ["Couldn't find User with 'email'=#{request.headers["email"]}"] }, status: 404
   end

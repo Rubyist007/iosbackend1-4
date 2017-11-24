@@ -17,7 +17,7 @@ class ReportController < ApplicationController
   def destroy 
     report = Report.find(params[:id])
     report.destroy
-    render json: { data: "Record destroyed" }, status: 200
+    render json: { data: [{ status: "Record destroyed" }] }, status: 200
 
     rescue ActiveRecord::RecordNotFound
       render json: { status: 404, errors: ["Couldn't find Report with 'id'=#{params[:id]}"] }, status: 404
