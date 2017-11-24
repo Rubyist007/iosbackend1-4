@@ -13,17 +13,19 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
       return render_update_error_password_not_required
     end
 
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
+    p params
+    p params[:password]
+    p params[:password_confirmation]
+    p "!!!!!!!!!!!!!!!!!!!!!!!!"
+
     # make sure reset_password_token right
     unless params[:reset_password_token] == @resource.reset_password_token
       return render json: "wrong reset_password_token"
     end
 
     # ensure that password params were sent
-    p "!!!!!!!!!!!!!!!!!!!!!!!!"
-    p params
-    p params[:password]
-    p params[:password_confirmation]
-    p "!!!!!!!!!!!!!!!!!!!!!!!!"
+    
     unless params[:password] && params[:password_confirmation]
       return render_update_error_missing_password
     end
