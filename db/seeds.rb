@@ -6,9 +6,24 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-5.times do |n|
+User.create( 
+    "email": "test0@gmail.com",
+    "first_name": "name_user0",
+    "last_name": "sname_user0",
+    "password": "123456789test",
+    "latitude": "50.619808",
+    "longitude": "26.249667",
+    "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
+    "confirmed_at": DateTime.now,
+    "number_of_evaluations": 30,
+    "sum_ratings_of_evaluations": 150,
+    "average_ratings_evaluations": 5       
+    )
+
+
+4.times do |n|
   User.create( 
-    "email": "test#{n}@gmail.com",
+    "email": "test#{n+1}@gmail.com",
     "first_name": "name_user#{n}",
     "last_name": "sname_user#{n}",
     "password": "123456789test",
@@ -18,7 +33,6 @@
     "confirmed_at": DateTime.now
   )
 end
-
 
 User.create( 
     "email": "admin@gmail.com",

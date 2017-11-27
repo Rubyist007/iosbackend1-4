@@ -21,7 +21,7 @@ class EvaluationController < ApplicationController
       update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
       update_statistics_user current_user, evaluation_params[:evaluation]
       
-      render json: {data: [evaluation]}
+      render json: { data: [evaluation] }
     rescue ActiveRecord::RecordNotUnique
       evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
       update_from_user evaluation_id, evaluation_params[:evaluation]
