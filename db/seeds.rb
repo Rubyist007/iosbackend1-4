@@ -70,7 +70,7 @@ Restaurant.all.each do |restaurant|
           "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
         )
 
-    User.first.evaluation << evaluation  
+    User.first.evaluation << evaluation
   end
 end
 
