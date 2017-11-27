@@ -70,9 +70,13 @@ Restaurant.all.each do |restaurant|
           "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
         )
 
-    User.first.evaluation << evaluation
+    User.first.evaluation << evaluation  
   end
 end
+
+User.first.number_of_evaluations = 30
+User.first.sum_ratings_of_evaluations = 150
+User.average_ratings_evaluations = 5
 
 #120.times do |n|
   #if n < 50

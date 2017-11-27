@@ -3,7 +3,6 @@ class EvaluationController < ApplicationController
   before_action :authenticate!, expect: [:update, :destroy]
   before_action :current_user_admin? , only: [:update, :destroy]
   before_action :not_ban_user, only: [:create]
-
     
   def my
     render json: { data: current_user.my_evaluations }
@@ -71,7 +70,7 @@ class EvaluationController < ApplicationController
   def destroy
     evaluation = Evaluation.find(params[:id])
     evaluation.destroy
-    render json: { data: ["Record destroyed"] }, status: 200
+    render json: { data: [{ status: "Record destroyed" }] }, status: 200
 
     rescue ActiveRecord::RecordNotFound
       render json: { status: 404, errors: ["Couldn't find Evaluation with 'id'=#{params[:id]}"] }, status: 404
@@ -123,7 +122,7 @@ class EvaluationController < ApplicationController
       return user.update_attributes(:number_of_evaluations => (user.number_of_evaluations + 1), 
                                     :sum_ratings_of_evaluations => (user.sum_ratings_of_evaluations + evaluation), 
                                     :average_ratings_evaluations => (user.number_of_evaluations != 0 ? 
-                                                                     user.sum_ratings_of_evaluations / user.number_of_evaluations : 
+                                                                     (user.sum_ratings_of_evaluations / user.number_of_evaluations).to_f : 
                                                                      evaluation))
     end
 end
