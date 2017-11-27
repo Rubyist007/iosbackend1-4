@@ -84,12 +84,13 @@ class EvaluationController < ApplicationController
     end
 
     def update_rating_dish dish, evaluation
-      dish.update_attributes(:number_of_ratings => (dish.number_of_ratings + 1), 
-                             :sum_ratings => (dish.sum_ratings + evaluation), 
-                             :average_ratings => (dish.number_of_ratings != 0 ? 
-                                                  dish.sum_ratings / dish.number_of_ratings : 
-                                                  evaluation),
-                            :actual_rating => ((((dish.number_of_ratings + 1).to_f / ((dish.number_of_ratings + 1) + 50)) * (dish.number_of_ratings != 0 ? dish.sum_ratings / dish.number_of_ratings : evaluation)) + ((50.0 / ((dish.number_of_ratings + 1) + 50) * 3.5 ))))
+      number_of_ratings = dish.number_of_ratings + 1
+      sum_ratings = dish.sum_ratings + evaluation
+
+      dish.update_attributes(:number_of_ratings => (number_of_ratings),
+                             :sum_ratings => (sum_ratings),
+                             :average_ratings => (sum_ratings / number_of_ratings).to_f,
+                             :actual_rating => (calculation_actual_rating(number_of_ratings, sum_ratings)))
     end
 
     def update_rating_restaurant restaurant_id, evaluation
@@ -99,24 +100,23 @@ class EvaluationController < ApplicationController
       top_city = Restaurant.all.where("number_of_ratings >= :limitation 
                                        AND state = :state
                                        AND (:city IS NULL OR city = :city)",
-                                      limitation: 50, 
-                                      state: restaurant.state,
-                                      city: restaurant.city).
+                                       limitation: 50, 
+                                       state: restaurant.state,
+                                       city: restaurant.city).
                   order(actual_rating: :desc).limit(10)
-
                   
-      top_hundred_place = top_hundred.index(restaurant)
-      top_city_place = top_city.index(restaurant)
+      top_hundred_place = top_hundred.index(restaurant) + 1
+      top_city_place = top_city.index(restaurant) + 1
+      number_of_ratings = restaurant.number_of_ratings + 1
+      sum_ratings = restaurant.sum_ratings + evaluation
 
-      restaurant.update_attributes(:number_of_ratings => (restaurant.number_of_ratings + 1),
-                                   :sum_ratings => (restaurant.sum_ratings + evaluation), 
-                                   :average_ratings => (restaurant.number_of_ratings != 0 ? 
-                                                        restaurant.sum_ratings / restaurant.number_of_ratings : 
-                                                        evaluation),
-                                   :actual_rating => ((((restaurant.number_of_ratings + 1).to_f / ((restaurant.number_of_ratings + 1) + 50)) * (restaurant.number_of_ratings != 0 ? restaurant.sum_ratings / restaurant.number_of_ratings : evaluation)) + ((50.0 / ((restaurant.number_of_ratings + 1) + 50) * 3.5 ))),
-                                   :place_Country => ((top_hundred_place + 1) if top_hundred_place.is_a? Numeric),
-                                   :place_City => ((top_city_place + 1) if top_city_place.is_a? Numeric))
 
+      restaurant.update_attributes(:number_of_ratings => (number_of_ratings),
+                                   :sum_ratings => (sum_ratings), 
+                                   :average_ratings => ((restaurant.sum_ratings / restaurant.number_of_ratings).to_f),
+                                   :actual_rating => (calculation_actual_rating(number_of_ratings, sum_ratings)),
+                                   :place_Country => ((top_hundred_place) if top_hundred_place.is_a? Numeric),
+                                   :place_City => ((top_city_place) if top_city_place.is_a? Numeric))
     end
       
     def update_statistics_user user, evaluation
@@ -126,5 +126,10 @@ class EvaluationController < ApplicationController
       return user.update_attributes(:number_of_evaluations => (number_of_evaluations), 
                                     :sum_ratings_of_evaluations => (sum_ratings_of_evaluations), 
                                     :average_ratings_evaluations => (((sum_ratings_of_evaluations) / (number_of_evaluations)).to_f))
+    end
+
+    def calculation_actual_rating number_of_ratings, sum_ratings
+      (((number_of_ratings.to_f / (number_of_ratings + 50)) * (sum_ratings / number_of_ratings).to_f) + 
+      (((50.0 / (number_of_ratings + 50)) * 3.5)))
     end
 end
