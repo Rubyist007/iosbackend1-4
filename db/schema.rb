@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20171107083058) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "admin", default: false
-    t.string "ban_time", default: "2017-11-19 10:30:42.101222"
+    t.string "ban_time", default: "2017-11-26 11:24:09.815374"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -119,12 +119,10 @@ class EvaluationController < ApplicationController
     end
       
     def update_statistics_user user, evaluation
-
-      number_of_evaluations = user.number_of_evaluations + 1
-      sum_ratings_of_evaluations = user.sum_ratings_of_evaluations + evaluation
-
-      return user.update_attributes(:number_of_evaluations => (number_of_evaluations), 
-                                    :sum_ratings_of_evaluations => (sum_ratings_of_evaluations), 
-                                    :average_ratings_evaluations => (((user.sum_ratings_of_evaluations + 1) / (user.number_of_evaluations + evaluation)).to_f))
+      return user.update_attributes(:number_of_evaluations => (user.number_of_evaluations + 1), 
+                                    :sum_ratings_of_evaluations => (user.sum_ratings_of_evaluations + evaluation), 
+                                    :average_ratings_evaluations => (user.number_of_evaluations != 0 ? 
+                                                                     user.sum_ratings_of_evaluations / user.number_of_evaluations : 
+                                                                     evaluation))
     end
 end
