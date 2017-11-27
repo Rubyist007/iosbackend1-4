@@ -76,7 +76,7 @@ end
 
 User.first.number_of_evaluations = 30
 User.first.sum_ratings_of_evaluations = 150
-User.average_ratings_evaluations = 5
+User.first.average_ratings_evaluations = 5
 
 #120.times do |n|
   #if n < 50
