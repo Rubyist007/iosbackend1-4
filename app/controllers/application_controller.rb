@@ -7,7 +7,6 @@ class ApplicationController < ActionController::API
   def current_user_admin?
     if current_user == nil
       render json: { status: 402, errors: ["You need to sign in or sign up before continuing"] }, status: 402
-
     elsif current_user.admin == true
       return true
     else
@@ -45,9 +44,7 @@ class ApplicationController < ActionController::API
                                                                 :latitude, 
                                                                 :longitude, 
                                                                 :avatar, 
-                                                                :number_phone,
-                                                                :password,
-                                                                :password_confirmation, :current_password])
+                                                                :number_phone,])
     end
 
     def show_header

@@ -6,24 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create( 
-    "email": "test0@gmail.com",
-    "first_name": "name_user0",
-    "last_name": "sname_user0",
-    "password": "123456789test",
-    "latitude": "50.619808",
-    "longitude": "26.249667",
-    "avatar": open(Rails.root + "app/assets/images/testAvatar.png"),
-    "confirmed_at": DateTime.now,
-    "number_of_evaluations": 30,
-    "sum_ratings_of_evaluations": 150,
-    "average_ratings_evaluations": 5       
-    )
 
 
-4.times do |n|
+
+5.times do |n|
   User.create( 
-    "email": "test#{n+1}@gmail.com",
+    "email": "test#{n}@gmail.com",
     "first_name": "name_user#{n}",
     "last_name": "sname_user#{n}",
     "password": "123456789test",
@@ -71,24 +59,21 @@ end
 
 Restaurant.all.each do |restaurant| 
   6.times.with_index do |i|
-    dish = restaurant.dishes.create("name": "Dish #{i}",
+    restaurant.dishes.create("name": "Dish #{i}",
                              "description": "descripiton"*13,
                              "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
                              "type_dish": "pizza",
                              "price": 20)
-    evaluation = dish.evaluation.create(
-          "user_id": 1,
-          "restaurant_id": restaurant.id,
-          "evaluation": 5,
-          "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
-          "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
-        )
+    
+    #evaluation = dish.evaluation.create(
+    #      "user_id": 1,
+    #      "restaurant_id": restaurant.id,
+    #      "evaluation": 5,
+    #      "photo": open(Rails.root + "app/assets/images/Dish.jpg"),
+    #      "dish_id": (i + ( 6 * restaurant.id - 6) + 1)
+    #    )
 
-    User.first.evaluation << evaluation
+    #User.first.evaluation << evaluation
   end
 end
-
-User.first.number_of_evaluations = 30
-User.first.sum_ratings_of_evaluations = 150
-User.first.average_ratings_evaluations = 5
 
