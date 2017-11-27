@@ -74,32 +74,7 @@ Restaurant.all.each do |restaurant|
   end
 end
 
-#120.times do |n|
-  #if n < 50
-    #2.times do |u|
-    #  user = u+1
-    #  5.times do |d|
-    #    dish = d+1
-    #    Evaluation.create(
-    #      "user_id": user,
-    #      "restaurant_id": 1,
-    #      "evaluation": 5,
-    #      "dish_id": dish
-    #    )
-    #  end
-    #end
- # else
-    #3.times do |u|
-    #  user = u+3
-    #  5.times do |d|
-    #    dish = d+1
-    #    Evaluation.create(
-    #      "user_id": user,
-    #      "restaurant_id": 2,
-    #      "evaluation": 4,
-    #      "dish_id": dish
-    #    )
-    #  end
-    #end
-  #end
-#end
+User.first.number_of_evaluations = 30
+User.first.sum_ratings_of_evaluations = 150
+User.first.average_ratings_evaluations = 5
+

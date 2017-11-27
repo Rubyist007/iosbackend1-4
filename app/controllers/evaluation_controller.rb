@@ -71,7 +71,7 @@ class EvaluationController < ApplicationController
   def destroy
     evaluation = Evaluation.find(params[:id])
     evaluation.destroy
-    render json: { data: ["Record destroyed"] }, status: 200
+    render json: { data: [{ status: "Record destroyed" }] }, status: 200
 
     rescue ActiveRecord::RecordNotFound
       render json: { status: 404, errors: ["Couldn't find Evaluation with 'id'=#{params[:id]}"] }, status: 404
@@ -120,10 +120,11 @@ class EvaluationController < ApplicationController
     end
       
     def update_statistics_user user, evaluation
-      return user.update_attributes(:number_of_evaluations => (user.number_of_evaluations + 1), 
-                                    :sum_ratings_of_evaluations => (user.sum_ratings_of_evaluations + evaluation), 
-                                    :average_ratings_evaluations => (user.number_of_evaluations != 0 ? 
-                                                                     user.sum_ratings_of_evaluations / user.number_of_evaluations : 
-                                                                     evaluation))
+      number_of_evaluations = user.number_of_evaluations + 1
+      sum_ratings_of_evaluations = user.sum_ratings_of_evaluations + evaluation
+      
+      return user.update_attributes(:number_of_evaluations => (number_of_evaluations), 
+                                    :sum_ratings_of_evaluations => (sum_ratings_of_evaluations), 
+                                    :average_ratings_evaluations => (((sum_ratings_of_evaluations) / (number_of_evaluations)).to_f))
     end
 end

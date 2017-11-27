@@ -33,7 +33,7 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     end
   end
 
-  def render_create_success
+  def render_update_success 
     render json: { data: [@resource] }
   end
 end
