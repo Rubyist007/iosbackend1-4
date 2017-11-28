@@ -38,17 +38,11 @@ class User < ActiveRecord::Base
     result = []
 
     evaluations = self.evaluation.order('updated_at DESC')
-
-    p evaluations
     
     evaluations.each do |evaluation|
       e = evaluation
       d = Dish.find(evaluation.dish_id)
       r = Restaurant.find(evaluation.restaurant_id)
-
-      p e
-      p d
-      p r
       
       result << [e, r, d]
     end

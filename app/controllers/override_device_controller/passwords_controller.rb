@@ -15,7 +15,7 @@ class OverrideDeviceController::PasswordsController < DeviseTokenAuth::Passwords
     token = Devise.token_generator.digest(User, :reset_password_token, params[:reset_password_token])
 
     unless token == @resource.reset_password_token
-      return render json: { errors: "wrong reset_password_token" }
+      return render json: { errors: ["wrong reset_password_token"] }
     end
 
     # ensure that password params were sent
