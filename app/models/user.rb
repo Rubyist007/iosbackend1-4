@@ -86,6 +86,7 @@ class User < ActiveRecord::Base
       return ["Feed empty"] if evaluation.blank? 
 
       evaluation.each do |e|
+        r = restaurant_class.find(e[0].restaurant_id)
         d = dishes.find { |dish| dish.id == e[0].dish_id }
         u = self.class.find(e[0].user_id)
         result << [e[0], r, d, u]
