@@ -113,9 +113,6 @@ ActiveRecord::Schema.define(version: 20171107083058) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "nickname"
-    t.string "name"
-    t.string "image"
     t.string "first_name"
     t.string "last_name"
     t.string "number_phone"
@@ -127,7 +124,7 @@ ActiveRecord::Schema.define(version: 20171107083058) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "admin", default: false
-    t.string "ban_time", default: "2017-11-26 11:49:42.413122"
+    t.string "ban_time", default: "2017-11-27 15:24:35.998364"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
