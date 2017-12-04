@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   include DeviseTokenAuth::Concerns::User
   include Geocoder::Calculations
+  include OverrideDeviseRecoverable
 
   validates_presence_of :email, :password, :first_name, :last_name, on: :create
 
