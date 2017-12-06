@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+bundle exec sidekiq --environment development -C config/sidekiq.yml

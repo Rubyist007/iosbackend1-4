@@ -15,7 +15,8 @@ gem 'puma', '~> 3.7'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
+gem 'redis', '3.2.1'
+gem 'redis-namespace'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -46,7 +47,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise_token_auth'
-
+gem 'devise-async'
 gem 'omniauth'
 gem 'omniauth-oauth2'
 gem 'omniauth-google-oauth2'
@@ -58,3 +59,4 @@ gem 'pg'
 gem 'geocoder'
 gem 'carrierwave'
 gem 'carrierwave-base64', github: 'hats/carrierwave-base64'
+gem 'sidekiq', '4.2.10'

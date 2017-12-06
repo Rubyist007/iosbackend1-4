@@ -16,16 +16,16 @@ class EvaluationController < ApplicationController
       params = evaluation_params.merge ({ restaurant_id: dish.restaurant_id, user_id: current_user.id })
       evaluation = current_user.evaluation.create(params)
       dish.evaluation << evaluation
-      
-      update_rating_dish dish, evaluation_params[:evaluation]
-      update_rating_restaurant dish.restaurant_id, evaluation_params[:evaluation]
-      update_statistics_user current_user, evaluation_params[:evaluation]
-      
+       
+      UpdateRestaurantDishUserAfterCreateEvaluationWorker.perform_async(evaluation_params[:evaluation], 
+                                                                        dish.id, 
+                                                                        dish.restaurant_id, 
+                                                                        current_user.id)
+       
       render json: { data: [evaluation] }
     rescue ActiveRecord::RecordNotUnique
       evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
       update_from_user evaluation_id, evaluation_params[:evaluation]
-      #redirect_to action: ":update, id: evaluation_id#, evaluation: {dish_id: dish.id, evaluation: [arams}
     end
 
   end
