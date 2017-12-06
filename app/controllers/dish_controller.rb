@@ -1,39 +1,41 @@
 class DishController < ApplicationController
-  
-  before_action :current_user_admin?, only: [:create, :update]
-  before_action :authenticate_user!, expect: [:create, :update]
+   
+  before_action :authenticate_user!
+  before_action :current_user_admin!, only: [:create, :update]
 
   def create
     dish = Restaurant.find(params[:restaurant_id]).dishes.create(dish_params)
     if dish.save
       render json: { data: [dish] }
     else
-      render json: { status: 422, errors: dish.errors.full_messages }, status: 422
+      render_errors_422(dish.errors.full_messages)
     end
   rescue ActiveRecord::RecordNotFound
-    render json: { status: 404, errors: "Couldn't find Dish with 'id'=#{params[:restaurant_id]}" }, status: 404
+    not_find_by_id("Restaurant", params[:restaurant_id])
   end
 
   def index
     render json: { data: Restaurant.find(params[:restaurant_id]).dishes }
   rescue ActiveRecord::RecordNotFound
-    render json: { status: 404, errors: "Couldn't find Restaurant with 'id'=#{params[:restaurant_id]}" }, status: 404
+    not_find_by_id("Restaurant", params[:restaurant_id])
   end
   
   def show
     render json: { data: [Dish.find(params[:id])] }
   rescue ActiveRecord::RecordNotFound
-    render json: { status: 404, errors: "Couldn't find Dish with 'id'=#{params[:id]}" }, status: 404
+    not_find_by_id("Dish", params[:id])
   end
 
   def update
     dish = Dish.find(params[:id])
-    save = dish.update_attributes(dish_params)
-    if save
+
+    if dish.update_attributes(dish_params)
       render json: { data: [dish] }
     else
-      render json: { status: 422, errors: dish.errors.full_messages }, status: 422
+      render_errors_422(dish.errors.full_messages)
     end
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("Dish", params[:id])
   end
 
   private

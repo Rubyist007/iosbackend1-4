@@ -1,4 +1,6 @@
 class Restaurant < ApplicationRecord
+  include ValidatesCoordinate
+
   has_many :dishes
   
   after_validation :reverse_geocode
@@ -16,26 +18,9 @@ class Restaurant < ApplicationRecord
 
   validates :title, length: { maximum: 50 }
 
-  validates :description, length: { minimum: 10, maximum: 500 }
-
-  validate :validate_latitude
-  validate :validate_longitude
+  validates :description, length: { minimum: 10, maximum: 500 } 
 
   validates_length_of :photos, maximum: 10, too_long: "You can't upload more than 10 photo"
 
   mount_base64_uploaders :photos, PhotosRestaurantUploader
-
-  private
-    
-    def validate_latitude
-      latitude = self.latitude.to_s
-      return true if latitude.blank?
-      return false if latitude.match(/\A(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
-    end
-
-    def validate_longitude
-      longitude = self.longitude.to_s
-      return true if latitude.blank?
-      return false if longitude.match(/\A(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
-    end
 end

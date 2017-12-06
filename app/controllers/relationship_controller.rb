@@ -1,6 +1,6 @@
 class RelationshipController < ApplicationController
 
-  before_action :authenticate!
+  before_action :authenticate_user!
 
   def create
     follower = current_user 

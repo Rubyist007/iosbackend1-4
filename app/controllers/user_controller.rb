@@ -10,7 +10,7 @@ class UserController < ApplicationController
   def show 
     render json: { data: [User.find(params[:id])] }
   rescue ActiveRecord::RecordNotFound
-    render json: { status: 404, errors: ["Couldn't find User with 'id'=#{params[:id]}"] }, status: 404
+    not_find_by_id("User", params[:id])
   end
 
   def thank
@@ -21,8 +21,8 @@ class UserController < ApplicationController
     user = User.where(email: request.headers["email"])
     user[0].resend_confirmation_instructions
     render json: { status: 200, data: [{ status: "Resend success." }] }
-    rescue NoMethodError
-      render json: { status: 404, errors: ["Couldn't find User with 'email'=#{request.headers["email"]}"] }, status: 404
+  rescue NoMethodError
+    render json: { status: 404, errors: ["Couldn't find User with 'email'=#{request.headers["email"]}"] }, status: 404
   end
 
   def ban
@@ -34,13 +34,10 @@ class UserController < ApplicationController
   end
 
   def feed
-    p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    p current_user
-    return render json: {status: 422, errors: "You must provide distance"} if request.headers["distance"] == nil
+    return render json: { status: 422, errors: "You must provide distance" } if request.headers["distance"] == nil
    
-    render json: { data: current_user.feed(Restaurant, 
-                                            request.headers["distance"], 
-                                            3.month.ago,
+    render json: { data: current_user.feed(request.headers["distance"], 
+                                           3.month.ago,
                                            [current_user.latitude, current_user.longitude]) }
   end
 end

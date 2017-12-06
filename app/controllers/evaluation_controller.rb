@@ -1,80 +1,81 @@
 class EvaluationController < ApplicationController
 
-  before_action :authenticate!, expect: [:update, :destroy]
-  before_action :current_user_admin? , only: [:update, :destroy]
-  before_action :not_ban_user, only: [:create]
-
+  before_action :authenticate_user!
+  before_action :current_user_admin! , only: [:update, :destroy]
+  before_action :not_banned_user!, only: [:create]
     
   def my
     render json: { data: current_user.my_evaluations }
   end
 
   def create
-
-    begin
-      dish = Dish.find(evaluation_params[:dish_id])
-      params = evaluation_params.merge ({ restaurant_id: dish.restaurant_id, user_id: current_user.id })
-      evaluation = current_user.evaluation.create(params)
+    dish = Dish.find(evaluation_params[:dish_id])
+    params = evaluation_params.merge({ restaurant_id: dish.restaurant_id, user_id: current_user.id })
+    evaluation = current_user.evaluation.create(params)
+    
+    if evaluation.save
       dish.evaluation << evaluation
+    else
+      return render_errors_422(evaluation.errors.full_messages)
+    end 
        
-      UpdateRestaurantDishUserAfterCreateEvaluationWorker.perform_async(evaluation_params[:evaluation], 
-                                                                        dish.id, 
-                                                                        dish.restaurant_id, 
-                                                                        current_user.id)
-       
-      render json: { data: [evaluation] }
-    rescue ActiveRecord::RecordNotUnique
-      evaluation_id = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}").ids
-      update_from_user evaluation_id, evaluation_params[:evaluation]
-    end
+    UpdateRestaurantDishUserAfterCreateEvaluationWorker.perform_async(evaluation_params[:evaluation], 
+                                                                      dish.id, 
+                                                                      dish.restaurant_id, 
+                                                                      current_user.id)
+    
+    render json: { data: [evaluation] }
+  rescue ActiveRecord::RecordNotUnique
+    evaluation = Evaluation.where("user_id = #{current_user.id} and dish_id = #{dish.id}")[0]
+    user_update_existing_evaluation(evaluation, evaluation_params[:evaluation], evaluation_params[:photo])
   end
 
   def user
     render json: { data: Evaluation.user_evaluations(User.find(params[:id])) }
-  end
-
-  def show
-    render json: { data: Evaluation.where(user_id: params[:id]) }
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("User", params[:id])
   end
 
   def update
     evaluation = Evaluation.find(params[:id])
-    evaluation.update_attributes(evaluation: evaluation_params[:evaluation],
-                                 photo: evaluation_params[:photo])
-
-    render json: { data: [evaluation] }
+    if evaluation.update_attributes(evaluation: evaluation_params[:evaluation],
+                                    photo: evaluation_params[:photo])
+      render json: { data: [evaluation] }
+    else
+      render_errors_422(evaluation.errors.full_messages)
+    end
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("Evaluation", params[:id])
   end
 
-  def update_from_user evaluation_id, new_evaluation
-    e = Evaluation.find(evaluation_id)[0]
-    old_evaluation = e.evaluation
+  def user_update_existing_evaluation(obj_evaluation, new_evaluation, new_photo="")
+    old_evaluation = obj_evaluation.evaluation
     
-    if current_user.id == e.user_id || current_user.admin == true
-      e.update_attribute(:evaluation, new_evaluation)
+    if current_user.id == obj_evaluation.user_id || current_user.admin == true
+      obj_evaluation.update_attributes(evaluation: new_evaluation,
+                                       photo: new_photo)
     else
-      return render json: { errors: ["You can't change this evaluation"] }
+      return render json: { status: 403, errors: ["You can't change this evaluation"] }, status: 403
     end
 
     UpdateRestaurantDishUserAfterUpdateEvaluationWorker.perform_async(new_evaluation,
                                                                       old_evaluation,
-                                                                      e.dish_id,
-                                                                      e.restaurant_id, 
+                                                                      obj_evaluation.dish_id,
+                                                                      obj_evaluation.restaurant_id, 
                                                                       current_user.id)
 
-    render json: { data: [e] }
-  end
-
-  def evaluation_user
-    render json: Evaluation.where(user_id: params[:id])
+    render json: { data: [obj_evaluation] }
   end
 
   def destroy
     evaluation = Evaluation.find(params[:id])
-    evaluation.destroy
-    render json: { data: [{ status: "Record destroyed" }] }, status: 200
-
-    rescue ActiveRecord::RecordNotFound
-      render json: { status: 404, errors: ["Couldn't find Evaluation with 'id'=#{params[:id]}"] }, status: 404
+    if evaluation.destroy
+      render json: { data: [{ status: "Record destroyed" }] }, status: 200
+    else
+      render_errors_422(evaluation.errors.full_messages)
+    end
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("Evaluation", params[:id])
   end
 
   private 
@@ -82,5 +83,4 @@ class EvaluationController < ApplicationController
     def evaluation_params 
       params.require(:evaluation).permit(:dish_id, :evaluation, :photo)
     end
-
 end

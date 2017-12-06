@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   include Geocoder::Calculations
   include OverrideDeviseRecoverable
+  include ValidatesCoordinate
 
   validates_presence_of :email, :password, :first_name, :last_name, on: :create
 
@@ -15,21 +16,18 @@ class User < ActiveRecord::Base
   validates_length_of :password, minimum: 7, allow_blank: true
   validates_length_of :number_phone, is: 12, on: :update, allow_blank: true
   validates :latitude, numericality: { only_float: true }, on: :update, allow_blank: true
-  validates :longitude, numericality: { only_float: true }, on: :update, allow_blank: true
-
-  validate :validate_latitude, on: :update
-  validate :validate_longitude, on: :update
+  validates :longitude, numericality: { only_float: true }, on: :update, allow_blank: true 
 
   has_and_belongs_to_many :evaluation
 
-  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+#  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
 
-  has_many :followed_users, through: :relationships, source: :followed
-  has_many :followers, through: :reverse_relationships, source: :follower
+#  has_many :followed_users, through: :relationships, source: :followed
+#  has_many :followers, through: :reverse_relationships, source: :follower
 
-  has_many :reverse_relationships, foreign_key: "followed_id",
-                                   class_name:  "Relationship",
-                                   dependent:   :destroy
+#  has_many :reverse_relationships, foreign_key: "followed_id",
+#                                   class_name:  "Relationship",
+#                                   dependent:   :destroy
 
   has_many :reports
 
@@ -51,7 +49,7 @@ class User < ActiveRecord::Base
     result
   end
 
-  def feed restaurant_class, distance, time, coordinate
+  def feed distance, time, coordinate
         
     if coordinate
 
@@ -68,9 +66,7 @@ class User < ActiveRecord::Base
       end
 
       dishes.each do |d|
-          
           ev = d.evaluation.where("updated_at >= :time", time: time).limit(1).order("updated_at DESC")
-
           if ev[0]
             evaluation << ev 
           else
@@ -81,7 +77,7 @@ class User < ActiveRecord::Base
       return ["Feed empty"] if evaluation.blank? 
 
       evaluation.each do |e|
-        r = restaurant_class.find(e[0].restaurant_id)
+        r = Restaurant.find(e[0].restaurant_id)
         d = dishes.find { |dish| dish.id == e[0].dish_id }
         u = self.class.find(e[0].user_id)
         result << [e[0], r, d, u]
@@ -91,33 +87,15 @@ class User < ActiveRecord::Base
     end
   end
 
-  def top_restaurant user
-    user.rating_restaurant
-  end
+#  def following? other_user
+#    relationships.find_by(followed_id: other_user.id)
+#  end
 
-  def following? other_user
-    relationships.find_by(followed_id: other_user.id)
-  end
+#  def follow! other_user
+#    relationships.create!(followed_id: other_user.id)
+#  end
 
-  def follow! other_user
-    relationships.create!(followed_id: other_user.id)
-  end
-
-  def unfollow! other_user
-    relationships.find_by(followed_id: other_user.id).destroy!
-  end
-
-  private
-    
-    def validate_latitude
-      latitude = self.latitude.to_s
-      return true if latitude.blank?
-      return false if latitude.match(/\A(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
-    end
-
-    def validate_longitude
-      longitude = self.longitude.to_s
-      return true if latitude.blank?
-      return false if longitude.match(/\A(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))\z/) == nil
-    end
+#  def unfollow! other_user
+#    relationships.find_by(followed_id: other_user.id).destroy!
+#  end
 end

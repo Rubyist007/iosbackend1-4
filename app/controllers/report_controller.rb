@@ -10,7 +10,7 @@ class ReportController < ApplicationController
     if report.save
       render json: { data: [report] }
     else
-      render json: { errors: report.errors.full_messages }, status: 400
+      render_errors_422(report.errors.full_messages)
     end
   end
 
@@ -19,12 +19,14 @@ class ReportController < ApplicationController
     report.destroy
     render json: { data: [{ status: "Record destroyed" }] }, status: 200
 
-    rescue ActiveRecord::RecordNotFound
-      render json: { status: 404, errors: ["Couldn't find Report with 'id'=#{params[:id]}"] }, status: 404
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("Report", params[:id])
   end
 
   def show
     render json: { data: [Report.find(params[:id])] }
+  rescue ActiveRecord::RecordNotFound
+    not_find_by_id("Report", params[:id])
   end
 
   private
