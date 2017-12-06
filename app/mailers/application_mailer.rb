@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'administration-R8@example.com'
+  default from: 'R8.suport@heroku.com'
   layout 'mailer'
 end
