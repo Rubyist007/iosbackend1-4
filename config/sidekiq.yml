@@ -1,0 +1,7 @@
+---
+:concurrency: 1
+:queues:
+  - default
+  - mailers
+  - update_after_create_evaluation
+  - update_after_update_evaluation
