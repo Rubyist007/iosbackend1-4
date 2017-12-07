@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   validates :latitude, numericality: { only_float: true }, on: :update, allow_blank: true
   validates :longitude, numericality: { only_float: true }, on: :update, allow_blank: true 
 
-  has_and_belongs_to_many :evaluation
+  has_many :evaluation
 
 #  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
 
@@ -36,12 +36,12 @@ class User < ActiveRecord::Base
   def my_evaluations
     result = []
 
-    evaluations = self.evaluation.order('updated_at DESC')
+    evaluations = self.evaluation.order('updated_at DESC').includes(:dish, :restaurant)
     
     evaluations.each do |evaluation|
       e = evaluation
-      d = Dish.find(evaluation.dish_id)
-      r = Restaurant.find(evaluation.restaurant_id)
+      d = evaluation.dish 
+      r = evaluation.restaurant
       
       result << [e, r, d]
     end
@@ -50,41 +50,22 @@ class User < ActiveRecord::Base
   end
 
   def feed distance, time, coordinate
-        
-    if coordinate
 
-      near_restaurant = Restaurant.near(coordinate, distance)
+    all_evaluations = 0
+    result = []
 
-      evaluation = []
-      dishes = []
-      result = []
+    near_restaurant = Restaurant.near(coordinate, distance)
 
-      near_restaurant.each do |r|
-        next if r.dishes.count == 0
-        offset = rand(r.dishes.count)
-        dishes << r.dishes.offset(offset).first
-      end
-
-      dishes.each do |d|
-          ev = d.evaluation.where("updated_at >= :time", time: time).limit(1).order("updated_at DESC")
-          if ev[0]
-            evaluation << ev 
-          else
-            next
-          end
-        end
-
-      return ["Feed empty"] if evaluation.blank? 
-
-      evaluation.each do |e|
-        r = Restaurant.find(e[0].restaurant_id)
-        d = dishes.find { |dish| dish.id == e[0].dish_id }
-        u = self.class.find(e[0].user_id)
-        result << [e[0], r, d, u]
-      end
-
-      return result 
+    near_restaurant.each do |restaurant|
+      break if all_evaluations > 20
+      next if restaurant.dishes.count == 0
+       
+      evaluations = Evaluation.where("updated_at >= :time and restaurant_id = :id", time: time, id: restaurant.id).order("RANDOM()").includes(:dish, :user).limit(10)
+      all_evaluations += evaluations.count
+      result += evaluations.map { |evaluation| [evaluation, restaurant, evaluation.dish, evaluation.user] }
     end
+
+    return result 
   end
 
 #  def following? other_user
